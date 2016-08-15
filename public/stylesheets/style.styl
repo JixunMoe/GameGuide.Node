@@ -1,0 +1,51 @@
+screen-xs-min = 480px
+screen-sm-min = 768px
+screen-md-min = 992px
+screen-lg-min = 1200px
+
+screen-xs-max = screen-sm-min - 1px
+screen-sm-max = screen-md-min - 1px
+screen-md-max = screen-lg-min - 1px
+
+body
+  padding: 50px
+  background #f2f2f2
+  padding-top: 70px
+a
+  color: #00B7FF
+
+.game .cover
+  float: right
+  padding 0 .5em
+
+table
+  background: #fff
+  
+.game img.game-cover
+  border 2px solid #FFF
+  max-width: 200px;
+  max-height: 200px;
+
+  @media(min-width: screen-xs-min) {
+    max-width: 200px;
+    max-height: 200px;
+  }
+  @media (min-width: screen-sm-min) and (max-width: screen-sm-max) {
+    max-width: 300px;
+    max-height: 300px;
+  }
+  @media (min-width: screen-md-min) and (max-width: screen-md-max) {
+    max-width: 400px;
+    max-height: 400px;
+  }
+  @media (min-width: screen-lg-min) {
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+a.reset-pw
+  margin-left 2em
+
+.guide-count
+  margin-left .5em
+  cursor help

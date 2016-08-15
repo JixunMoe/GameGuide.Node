@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1 最新收录的游戏
+  table.table.table-striped
+    tr
+      th 游戏名称
+      th 发售日期
+      th 游戏简介
+    each game in games
+      tr
+        td
+          a(href=url_guide(game.url)).
+            #{game.title}
+          span.guide-count(title="《" + game.title + "》现在共有 " + game.guide_count + "条攻略。").
+            (#{game.guide_count})
+        td=moment(game.release_date).format('l')
+        td=excerpt(game.description, 20)
+
+  h1 最近更新的攻略
+  table.table.table-striped
+    tr
+      th 游戏名称
+      th 攻略名称
+      th 作者
+      th 简介
+      th 最近更新
+    each guide in guides
+      tr
+        td
+          a(href=url_guide(guide.game_url))=guide.game_title
+        td
+          a(href=url_guide(guide.game_url, guide.guide_url))=guide.name
+        td
+          a(href=url_user(guide.username))=guide.username
+        td=excerpt(guide.short_desc, 20)
+        td=moment(guide.update_at).format('l')

@@ -1,0 +1,51 @@
+body {
+  padding: 50px;
+  background: #f2f2f2;
+  padding-top: 70px;
+}
+a {
+  color: #00b7ff;
+}
+.game .cover {
+  float: right;
+  padding: 0 0.5em;
+}
+table {
+  background: #fff;
+}
+.game img.game-cover {
+  border: 2px solid #fff;
+  max-width: 200px;
+  max-height: 200px;
+}
+@media (min-width: 480px) {
+  .game img.game-cover {
+    max-width: 200px;
+    max-height: 200px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .game img.game-cover {
+    max-width: 300px;
+    max-height: 300px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .game img.game-cover {
+    max-width: 400px;
+    max-height: 400px;
+  }
+}
+@media (min-width: 1200px) {
+  .game img.game-cover {
+    max-width: 400px;
+    max-height: 400px;
+  }
+}
+a.reset-pw {
+  margin-left: 2em;
+}
+.guide-count {
+  margin-left: 0.5em;
+  cursor: help;
+}

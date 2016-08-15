@@ -1,0 +1,22 @@
+extends layout
+
+block title
+  = "账户登陆"
+
+block content
+  h1 用户登陆
+  form.form-horizontal(method="post")
+    .form-group
+      label.col-sm-2.control-label(for="txtEmail") 登陆邮箱
+      .col-sm-10
+        input#txtEmail.form-control(type="email", placeholder="example@jixun.moe", name="mail")
+
+    .form-group
+      label.col-sm-2.control-label(for="txtPw") 登录密码
+      .col-sm-10
+        input#txtPw.form-control(type="password", placeholder="123456", name="passwd")
+
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-default(type="submit") 登陆
+        a.reset-pw(href="/user/reset") 忘记密码?

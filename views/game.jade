@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  header
+    h1 《#{ game.title }》
+
+  main
+    h2 游戏介绍
+    section.game
+      div.cover
+        img.game-cover(src=game.cover_url, alt='游戏封面')
+      div.description!=marked(game.description)
+      div.clearfix
+
+    h2 攻略 (#{guides.length})
+    table.table.table-striped
+      tr
+        th 制作
+        th 攻略名称
+        th 建立日期
+      each guide in guides
+        tr
+          td= guide.username
+          td
+            a(href='/' + game.url + '/' + guide.url)
+              = guide.name
+          td=moment(guide.create_at).format('l')
+
+block title
+    = "游戏《" + game.title + "》"
