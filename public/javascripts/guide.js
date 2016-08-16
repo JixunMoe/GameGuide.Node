@@ -3,7 +3,7 @@
  */
 
 // 前台动态获取数据
-require(['jquery', 'underscore', 'Backbone', 'marked'], function ($, _, Backbone, marked) {
+require(['jquery', 'underscore', 'backbone', 'marked'], function ($, _, Backbone, marked) {
   $(function () {
     var el = $('#guide');
     var _dataChapter = el.data('chapter');
