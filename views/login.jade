@@ -11,6 +11,9 @@ block content
         for message in messages
           div.alert.alert-danger
             p=message
+
+    input(name="_csrf", type="hidden", value=session._csrfToken)
+
     .form-group
       label.col-sm-2.control-label(for="txtEmail") 登陆邮箱
       .col-sm-10

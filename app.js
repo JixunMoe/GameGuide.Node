@@ -45,35 +45,8 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-var session = require('express-session');
-var RedisStore = require('connect-redis')(session);
-
-//noinspection SpellCheckingInspection
-app.use(session({
-  store: new RedisStore({
-    db: 0
-  }),
-  resave: false,
-  saveUninitialized: false,
-  secret: '_session_gg_redis_'
-}));
-
-// User session data
-app.use(function (req, res, next) {
-  if (!req.session) {
-    res.locals.session = {};
-    res.status(500).render('error', {
-      message: 'Fatal Error',
-      error: {
-        status: '无法获取回话信息。',
-        stack: 'app.session'
-      }
-    });
-    return;
-  }
-  res.locals.session = req.session;
-  next();
-});
+let session = require('./middleware/session');
+app.use(session);
 
 app.use('/', routes);
 app.use('/user', users);

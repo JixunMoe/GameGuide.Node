@@ -7,5 +7,7 @@
 
 /** @var {string} req.body.mail */
 /** @var {string} req.body.passwd */
+/** @var {string} req.body._csrf */
 
 /** @var {UserRow} res.session.user */
+/** @var {UserRow} res.session._csrfToken */

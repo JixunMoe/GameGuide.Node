@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1 访问被拒绝
+    small 403#Forbidden
+
+  p 您的请求被服务器所拒绝。
+
+  if reasons
+    p 可能的原因如下：
+    .alert.alert-danger(role="alert")
+      ul
+        each reason in reasons
+          li=reason
+
+  p 请稍后重新尝试操作。
+  p 如果问题依旧，请联系网站管理员寻求协助。
+
+block title
+  | 访问被拒绝 - #{title}

@@ -52,3 +52,6 @@ a.reset-pw {
 span.caret {
   margin-left: 0.5em;
 }
+h1 > small {
+  margin-left: 1em;
+}

@@ -87,8 +87,8 @@ class UserController{
   }
 
   static logout (req, res, next) {
-    // TODO: 登出系统, 检查
-    res.render('index', {title: 'logout'});
+    req.session.destroy();
+    res.redirect('/');
   }
 
   static getUser (req, res, next) {
