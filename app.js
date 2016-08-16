@@ -60,7 +60,17 @@ app.use(session({
 
 // User session data
 app.use(function (req, res, next) {
-  console.info(req.session);
+  if (!req.session) {
+    res.locals.session = {};
+    res.status(500).render('error', {
+      message: 'Fatal Error',
+      error: {
+        status: '无法获取回话信息。',
+        stack: 'app.session'
+      }
+    });
+    return;
+  }
   res.locals.session = req.session;
   next();
 });

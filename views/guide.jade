@@ -31,8 +31,6 @@ block content
 block title
   = guide.name + " - 游戏攻略"
 
-block footer
-  // include ./includes/backbone
-  // script(src="/javascripts/guide.js")
+block require
   include ./includes/requirejs
   mixin require("/javascripts/guide.js")

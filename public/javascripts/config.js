@@ -6,5 +6,16 @@ requirejs.config({
   paths: {
     app: '/javascripts',
     jquery: 'jquery-3.1.0'
+  },
+  shim: {
+    backbone: {
+      deps: ['jquery', 'underscore']
+    },
+
+    bootstrap: {
+      deps: ['jquery']
+    }
   }
 });
+
+require(['bootstrap']);

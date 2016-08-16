@@ -5,7 +5,12 @@ block title
 
 block content
   h1 用户登陆
-  form.form-horizontal(method="post")
+  form#login.form-horizontal(method="post")
+    div.messages
+      if messages
+        for message in messages
+          div.alert.alert-danger
+            p=message
     .form-group
       label.col-sm-2.control-label(for="txtEmail") 登陆邮箱
       .col-sm-10

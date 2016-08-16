@@ -49,3 +49,6 @@ a.reset-pw {
   margin-left: 0.5em;
   cursor: help;
 }
+span.caret {
+  margin-left: 0.5em;
+}
