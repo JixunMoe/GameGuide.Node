@@ -41,11 +41,13 @@ class GuideController {
         chapter = data.chapters[0];
       }
 
+      console.info(chapter);
+
       chapter.active = true;
       res.render('guide', {
         guide: data.guide,
         chapters: data.chapters,
-        chapter: chapter ,
+        chapter: chapter,
         moment: moment
       });
     }).catch(err => next(err));

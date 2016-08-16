@@ -16,13 +16,13 @@ block content
     section.col-xs-12.col-md-3
       h2 章节列表
       ul.list-group.chapters
-        each chapter in chapters
+        each chap in chapters
           a.chapter.list-group-item(
-            class=active_chapter(chapter),
-            href='/' + guide.game_url + '/' + guide.url + '/' + chapter.url,
-            data-url=chapter.url,
-            data-id=chapter.chapter_id
-          ) #{chapter.title}
+            class=active_chapter(chap),
+            href='/' + guide.game_url + '/' + guide.url + '/' + chap.url,
+            data-url=chap.url,
+            data-id=chap.chapter_id
+          ) #{chap.title}
 
     section#chapter.col-xs-12.col-md-9
       h2.title= chapter.title
@@ -32,5 +32,4 @@ block title
   = guide.name + " - 游戏攻略"
 
 block require
-  include ./includes/requirejs
-  mixin require("/javascripts/guide.js")
+  script(src="/javascripts/guide.js")
