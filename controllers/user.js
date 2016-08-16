@@ -27,7 +27,6 @@ class UserController{
     } else if (req.method == 'GET') {
       res.render('login');
     } else if (req.method == 'POST') {
-      // TODO: 账户登陆 POST
       UserModel.Login(req.body.mail, req.body.passwd).then(result => {
         var data = {
           success: false,
