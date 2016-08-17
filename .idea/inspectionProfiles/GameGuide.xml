@@ -1,0 +1,20 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="GameGuide" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="3">
+            <item index="0" class="java.lang.String" itemvalue="data-url" />
+            <item index="1" class="java.lang.String" itemvalue="data-id" />
+            <item index="2" class="java.lang.String" itemvalue="render" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="NpmUsedModulesInstalled" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <scope name="js-front" level="WEAK WARNING" enabled="false" />
+    </inspection_tool>
+  </profile>
+</component>
