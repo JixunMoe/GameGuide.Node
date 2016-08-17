@@ -4,7 +4,7 @@
 requirejs.config({
   baseUrl: '/lib',
   paths: {
-    app: '/javascripts',
+    Loader: '/javascripts/Loader',
     jquery: 'jquery-3.1.0'
   },
   shim: {

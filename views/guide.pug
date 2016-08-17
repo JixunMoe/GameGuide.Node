@@ -4,15 +4,20 @@ block content
   - function active_chapter(c) { return c.active ? 'active' : '' };
   header
     h1 #{guide.name}
-      br
+      .visible-xs-block
       small 攻略作者：
         a(href="/user/" + guide.guide_user)
           =guide.guide_user
-        span ，游戏：
+      .visible-xs-block
+      small
+        span 游戏：
         a(href='/' + guide.game_url)
           =guide.game_title
 
-  main#guide.guide(data-chapter=chapter.url)
+  main#guide.guide.render(
+    data-chapter=chapter.url,
+    render="guide"
+  )
     section.col-xs-12.col-md-3
       h2 章节列表
       ul.list-group.chapters
@@ -32,4 +37,4 @@ block title
   = guide.name + " - 游戏攻略"
 
 block require
-  script(src="/javascripts/guide.js")
+  // script(src="/javascripts/guide.js")

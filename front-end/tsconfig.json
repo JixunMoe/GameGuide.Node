@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "outFile": "../public/javascripts/Loader.js",
+    "sourceMap": true,
+    "target": "es6"
+  },
+  "files": [
+    "Loader.ts"
+  ]
+}

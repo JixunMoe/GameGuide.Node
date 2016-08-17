@@ -9,6 +9,13 @@ Import database in `miguration` (`base`, followed by updates).
 
 Copy `db.sample.js` to `db.js` and modify its settings.
 
+## Build `front-end`
+
+1. Install `typings` & `tsc` cli：`# npm install -g typings tsc`
+2. Install typings using `typing install`.
+3. Compile using `tsc --project front-end`.
+
+
 # 使用 Node.JS 建立的游戏攻略网站
 
 试了好多个框架，结果发现还是最习惯 Express 的用法。
@@ -25,6 +32,13 @@ Copy `db.sample.js` to `db.js` and modify its settings.
 导入 `miguration` 目录下的文件，首先导入 `base` 然后按照日期依次导入更新。
 
 拷贝 `db.sample.js` 到 `db.js` 并修改设定。
+
+## 编译前端代码 `front-end`
+
+1. 安装 `typings` & `tsc` 程序：`# npm install -g typings tsc`
+2. 安装需要的类型包： `typing install`.
+3. 编译： `tsc --project front-end`.
+
 
 ## 待做项目
 - [x] 前台数据展示

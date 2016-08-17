@@ -28,26 +28,15 @@ class GuideController {
   }
 
   static RenderGuide (req, res, next) {
-    GameModel.GetGuideFromUrl(req.params.game, req.params.guide).then(data => {
-      let chapter;
-      if (req.params.chapter) {
-        chapter = _.findWhere(data.chapters, {
-          url: req.params.chapter
-        });
+    GameModel.GetGuideFromUrl(req.params.game, req.params.guide, req.params.chapter).then(data => {
+      data.chapters.forEach(chapter => {
+        delete chapter.username;
+      });
 
-        // 章节不存在
-        if (!chapter) return next();
-      } else {
-        chapter = data.chapters[0];
-      }
-
-      console.info(chapter);
-
-      chapter.active = true;
       res.render('guide', {
         guide: data.guide,
         chapters: data.chapters,
-        chapter: chapter,
+        chapter: data.chapter,
         moment: moment
       });
     }).catch(err => next(err));

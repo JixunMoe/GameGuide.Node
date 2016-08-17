@@ -45,8 +45,8 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-let session = require('./middleware/session');
-app.use(session);
+app.use(require('./middleware/session'));
+app.use(require('./middleware/duoshuo'));
 
 app.use('/', routes);
 app.use('/user', users);

@@ -2,6 +2,7 @@
  * Created by Jixun on 13/08/2016.
  */
 
+var _ = require('underscore');
 var db = require('../db');
 
 
@@ -110,7 +111,9 @@ ORDER BY
 
 const sqlChapterMetaFromGuideId = `
 SELECT
-	chapter.*,
+	chapter.url,
+	chapter.title,
+	chapter.chapter_id,
 	users.name username
 
 FROM
@@ -220,9 +223,10 @@ class ModelGame {
    * 获取攻略所有章节。
    * @param gameUrl
    * @param guideUrl
+   * @param chapterUrl
    * @returns {Promise.<object>}
    */
-  static GetGuideFromUrl(gameUrl, guideUrl) {
+  static GetGuideFromUrl(gameUrl, guideUrl, chapterUrl) {
     /** @type {PromiseConnection} */
     var _conn;
 
@@ -246,7 +250,13 @@ class ModelGame {
       return _conn.execute(sqlChapterMetaFromGuideId, [_guide.guide_id]);
     }).then(res => {
       _chapters = res[0];
-      var chapter = _chapters[0];
+
+      if (_chapters.length == 0) {
+        throw new Error('No chapters.');
+      }
+
+      var chapter = _.findWhere(_chapters, { url: chapterUrl }) || _chapters[0];
+      chapter.active = true;
 
       return _conn.execute(sqlChapterFromChapterId, [chapter.chapter_id]);
     }).then(res => {
