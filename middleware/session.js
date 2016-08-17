@@ -72,6 +72,8 @@ module.exports = function (req, res, next) {
       }
     }
 
+    res.locals.xhr = req.xhr;
+
     next();
   });
 };
