@@ -19,6 +19,8 @@ var app = express();
 app.locals.moment = moment;
 app.locals.marked = marked;
 app.locals.excerpt = function (text, count) {
+  if (!text || text.length == 0) return '无';
+
   if (text.length > count)
     return text.slice(0, count - 3) + '...';
 
@@ -28,8 +30,11 @@ app.locals.excerpt = function (text, count) {
 app.locals.url_user = function (name) {
   return '/user/' + name;
 };
-app.locals.url_guide = function (game, guide, chapter) {
-  return Array.prototype.join.call(arguments, '/');
+app.locals.url_guide = function (guide, chapter) {
+  return '/guide/' + Array.prototype.join.call(arguments, '/');
+};
+app.locals.url_game = function (game) {
+  return '/game/' + game;
 };
 
 // view engine setup

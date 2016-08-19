@@ -1,0 +1,20 @@
+if session.user
+  li.dropdown
+    a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false")
+      span #{session.user.name}
+      span.caret
+    ul.dropdown-menu
+      li
+        a(href="/user") 用户首页
+      li
+        a(href="/user/logout") 登出系统
+  li
+    a(href="/new/game") 添加游戏
+  if session.user.is_admin
+    li
+      a(href="/user/register") 添加账号
+else
+  li
+    a(href="/user/login") 登陆
+  li
+    a(href="/user/register") 注册

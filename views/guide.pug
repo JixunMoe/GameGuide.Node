@@ -6,13 +6,18 @@ block content
     h1 #{guide.name}
       .visible-xs-block
       small 攻略作者：
-        a(href="/user/" + guide.guide_user)
-          =guide.guide_user
+        a(href="/user/" + guide.User.name)
+          =guide.User.name
       .visible-xs-block
       small
         span 游戏：
-        a(href='/' + guide.game_url)
-          =guide.game_title
+        a(href='/game/' + guide.Game.url)
+          =guide.Game.name
+      if session.user && session.user.id == guide.UserId
+        .visible-xs-block
+        small
+          a(href="/edit/guide/" + guide.id) 编辑
+
 
   main#guide.guide.render(
     data-chapter=chapter.url,
@@ -24,13 +29,13 @@ block content
         each chap in chapters
           a.chapter.list-group-item(
             class=active_chapter(chap),
-            href='/' + guide.game_url + '/' + guide.url + '/' + chap.url,
+            href='/guide/' + guide.url + '/' + chap.url,
             data-url=chap.url,
-            data-id=chap.chapter_id
-          ) #{chap.title}
+            data-id=chap.id
+          ) #{chap.name}
 
     section#chapter.col-xs-12.col-md-9
-      h2.title= chapter.title
+      h2.title= chapter.name
       div.content!=marked(chapter.content)
 
 block title

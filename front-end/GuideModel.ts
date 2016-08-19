@@ -2,19 +2,9 @@
  * Created by Jixun on 17/08/2016.
  */
 
+import Handlebars = require('handlebars');
 import Backbone = require('backbone');
 import marked = require('marked');
-
-interface IChapter {
-  id: number,
-  url: string,
-  title: string,
-  content: string,
-  loaded: boolean,
-  el: JQuery,
-
-  active: boolean
-}
 
 interface IChapterResponse {
   data: string
@@ -29,7 +19,7 @@ export class Chapter extends Backbone.Model {
     this.set('loaded', value);
   }
 
-  defaults(): IChapter {
+  defaults(): Backbone.ObjectHash {
     return {
       id: 0,
       url: '',

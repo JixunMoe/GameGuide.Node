@@ -1,0 +1,38 @@
+extends layout
+
+block title
+  | 注册账号
+
+block content
+  h1 注册账号
+  form#login.form-horizontal(method="post")
+    div.messages
+      if errors
+        for error in errors
+          div.alert.alert-danger
+            p=error
+      if messages
+        for message in messages
+          div.alert.alert-info
+            p=message
+
+    input(name="_csrf", type="hidden", value=session._csrfToken)
+    .form-group
+      label.col-sm-2.control-label(for="txtName") 用户名 (唯一)
+      .col-sm-10
+        input#txtName.form-control(placeholder="隔壁老王", name="name")
+
+    .form-group
+      label.col-sm-2.control-label(for="txtEmail") 登陆邮箱 (唯一)
+      .col-sm-10
+        input#txtEmail.form-control(type="email", placeholder="example@jixun.moe", name="mail")
+
+    .form-group
+      label.col-sm-2.control-label(for="txtPw") 登录密码
+      .col-sm-10
+        input#txtPw.form-control(type="password", placeholder="123456", name="passwd")
+
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-default(type="submit") 注册
+        a.reset-pw(href="/user/login") 已经注册?

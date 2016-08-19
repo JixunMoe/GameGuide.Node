@@ -13,9 +13,11 @@ class Router extends Backbone.Router {
     this.on('route', this.render);
   }
 
+  private needFetchFromServer: boolean = false;
+
   render(){
-    console.info('Render components on page.');
     // Look for .render, and render if we can.
+    console.info('Render components on page.');
     $('.render').each((i, render) => {
       let $render = $(render);
       let type: string = $render.attr('render');

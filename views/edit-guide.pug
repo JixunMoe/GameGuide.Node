@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  include includes/info_image
+
+  section.guide-editor.render(
+    render="guideEditor",
+    data-chapters=JSON.stringify(chapters),
+    data-csrf=session._csrfToken
+    data-guide-id=guide.id
+    data-game-id=guide.Game.id
+  )
+    noscript
+      .alert.alert-warning
+        p 您需要启用 JavaScript 才能使用编辑器功能。
+        p
+          | 如果您需要在没有启用 JavaScript 的情况下使用，请
+          a(href="./edit-legacy") 单击此处
+          | 进入旧版 (未完成)。
+
+    input(type="hidden", name="id", value=guide.id)
+    section
+      label(for="guide-name") 攻略标题
+      input#guide-name.form-control(name="guide-name", value=guide.name)
+
+      p
+        | 游戏：
+        a(href=url_game(guide.Game.url)) #{guide.Game.name}
+
+      label(for="guide-url") 攻略地址
+      .input-group
+        span.input-group-addon /guide/
+        input#guide-url.form-control(name="guide-url", value=guide.url)
+
+      br
+      label(for="guide-desc") 简短描述
+      textarea#guide-desc.form-control(name="guide-desc")
+        = guide.short_desc
+
+    section.chapters
+
+    section.submit.text-center
+      hr
+      p.btn-group
+        button.add-chapter.btn.btn-default
+          span.glyphicon.glyphicon-plus.btn-icon-left
+          | 添加章节
+        button.submit.btn.btn-primary
+          span.glyphicon.glyphicon-ok.btn-icon-left
+          | 更新攻略
+
+block title
+  | 编辑攻略：#{guide.name}

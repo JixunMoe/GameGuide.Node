@@ -5,7 +5,7 @@ requirejs.config({
   baseUrl: '/lib',
   paths: {
     Loader: '/javascripts/Loader',
-    jquery: 'jquery-3.1.0'
+    jquery: 'jquery-3.1.0',
   },
   shim: {
     backbone: {
@@ -15,6 +15,11 @@ requirejs.config({
     bootstrap: {
       deps: ['jquery']
     }
+  },
+
+  hbars: {
+    extension: '.hbs',
+    path: '/templates/'
   }
 });
 

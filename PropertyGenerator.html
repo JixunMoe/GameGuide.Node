@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Variable Generator</title>
+	<style type="text/css">
+		textarea {
+			min-height: 20em;
+			width: 100%;
+		}
+
+		main {
+			width: 80%;
+			margin: auto;
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<p>
+			<textarea id="input"></textarea>
+		</p>
+
+		<p style="text-align: center">
+			<button id="gen">Generate</button></p>
+		<p>
+			<textarea id="output" readonly=""></textarea>
+		</p>
+    <p>
+      <textarea id="default" readonly=""></textarea>
+    </p>
+    <p>
+      <textarea id="binding" readonly=""></textarea>
+    </p>
+	</main>
+
+	<script type="text/javascript">
+		/* jshint esnext:true */
+		(function ($) {
+			var $input  = $('input');
+      var $gen    = $('gen');
+      var $output = $('output');
+      var $default = $('default');
+      var $binding = $('binding');
+
+			$gen.onclick = e => {
+				let items = $input.value.replace(/\n/gmi, ',')
+          .split(',')
+          .map(e => e.trim())
+          .map(item => {
+            let variable = item.split(' ');
+            if (variable.length == 1) {
+              variable = ['string', item];
+            }
+            return variable;
+          });
+
+				let code = items.map(item => {
+					let [type, name] = item;
+
+return `
+    get ${name}(): ${type} { return this.get('${name}'); }
+    set ${name}(value: ${type}) { this.set('${name}', value); }
+`;
+				}).join('');
+
+        let defCode = items.map(item => {
+          let [type, name] = item;
+
+          return `      ${name}: null,`;
+        }).join('\n');
+
+        let bindCode = items.map(item => {
+          let [type, name] = item;
+
+          return `.bind('${name}', '.${name}')`;
+        }).join('\n');
+
+
+
+        $output.value = code;
+        $default.value = defCode;
+        $binding.value = `this.inputHelper\n${bindCode};`;
+			};
+		})(id => document.getElementById(id));
+	</script>
+</body>
+</html>

@@ -10,10 +10,10 @@ block content
     each game in games
       tr
         td
-          a(href=url_guide(game.url)).
-            #{game.title}
-          span.guide-count(title="《" + game.title + "》现在共有 " + game.guide_count + "条攻略。").
-            (#{game.guide_count})
+          a(href=url_game(game.url)).
+            #{game.name}
+          span.guide-count(title="《" + game.name + "》现在共有 " + game.guideCount + "条攻略。").
+            (#{game.guideCount})
         td=moment(game.release_date).format('l')
         td=excerpt(game.description, 20)
 
@@ -28,11 +28,11 @@ block content
     each guide in guides
       tr
         td
-          a(href=url_guide(guide.game_url))=guide.game_title
+          a(href=url_game(guide.Game.url))=guide.Game.name
         td
-          a(href=url_guide(guide.game_url, guide.guide_url))=guide.name
+          a(href=url_guide(guide.url))=guide.name
         td
-          a(href=url_user(guide.username))=guide.username
+          a(href=url_user(guide.User.name))=guide.User.name
         td=excerpt(guide.short_desc, 20)
         td=moment(guide.update_at).format('l')
 

@@ -1,6 +1,8 @@
 body {
   background: #f2f2f2;
   padding-top: 70px;
+  font-family: "Helvetica Neue", Helvetica, "Microsoft JhengHei UI", "Microsoft YaHei UI", Arial, sans-serif;
+  font-size: 150%;
 }
 .game .cover {
   float: right;
@@ -50,4 +52,59 @@ span.caret {
 }
 h1 > small {
   margin-left: 1em;
+}
+hr {
+  border-top-color: #ddd;
+  width: 75%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.guide-editor {
+  padding-bottom: 20em;
+}
+.chapter-editor .order {
+  width: 5em;
+}
+.chapter-editor .url {
+  width: calc(100% + 1px);
+  margin-left: -1px;
+}
+.chapter-editor .name {
+  width: calc(100% - 5em + 1px);
+  margin-left: -1px;
+}
+.chapter-editor label.remove {
+  padding-top: 3px;
+}
+.chapter-editor .chapter-content {
+  height: 20em;
+}
+.chapter-editor .editor-wrap {
+  height: 100%;
+}
+.chapter-editor textarea {
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  resize: none;
+}
+.chapter-editor .preview-wrap {
+  max-height: 100%;
+  width: 100%;
+}
+@media (min-width: 992px) {
+  .chapter-editor .preview-wrap {
+    width: calc(50% - 1em);
+  }
+}
+.chapter-editor textarea,
+.chapter-editor .preview-wrap {
+  overflow-y: auto;
+}
+.btn-icon-left {
+  padding-right: 0.5em;
+}
+span.separator {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }

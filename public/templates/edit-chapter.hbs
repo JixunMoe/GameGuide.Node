@@ -1,0 +1,37 @@
+<section class="chapter-editor">
+  <hr />
+  <div class="input-group">
+    <div class="input-group-btn">
+      <button class="btn btn-default" title="上移"><span class="glyphicon glyphicon-chevron-up"></span></button>
+      <button class="btn btn-default" title="下移"><span class="glyphicon glyphicon-chevron-down"></span></button>
+    </div>
+    <input type="text" class="order form-control" title="顺序" value="{{ order }}">
+    <input type="text" class="name form-control" title="攻略章节的标题" value="{{ name }}">
+  </div>
+
+  <br>
+
+  <div class="input-group">
+    <span class="input-group-addon checkbox">
+      <label class="remove"><input type="checkbox" class="delete" />
+        删除
+      </label>
+    </span>
+    <span class="input-group-addon">/</span>
+    <input type="text" class="url form-control" title="攻略章节的地址片段" value="{{ url }}">
+  </div>
+
+  <br>
+
+  <div class="row chapter-content">
+    <div class="col-xs-12 col-md-6 editor-wrap">
+      <textarea class="form-control content" rows="7" title="章节内容">{{ content }}</textarea>
+    </div>
+
+    <div class="col-xs-12 col-md-6 preview-wrap">
+      <div class="preview"></div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+</section>

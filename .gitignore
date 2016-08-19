@@ -1,8 +1,7 @@
-﻿db.js
-node_modules
+﻿node_modules
 typings
 /config.js
-
+/config/config.json
 
 
 

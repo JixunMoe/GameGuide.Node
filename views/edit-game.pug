@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  section.game-editor.render(
+    render="gameEditor",
+    data-game-id=game.id
+  )
+    form(method="POST", action="/edit/" + game.id)
+      input(type="hidden", name="_csrf", value=session._csrfToken)
+
+      label(for="game-name") 游戏标题
+      input#game-name.form-control(name="name", value=game.name)
+      br
+
+      label(for="game-url") 访问地址
+      .input-group
+        span.input-group-addon /view/
+        input#game-url.form-control(name="url", value=game.url)
+      br
+
+      label(for="game-id") 唯一识别码 (Release ID)
+      input#game-id.form-control(name="release_id", value=game.release_id)
+      br
+
+      label(for="game-date") 游戏发布日期
+      input#game-date.form-control(name="release_date", value=game.release_date)
+      br
+
+      include includes/info_image
+      label(for="game-cover")
+        | 封面地址
+      input#game-cover.form-control(name="cover_url", value=game.cover_url)
+      br
+
+      label(for="game-description") 游戏的简单描述
+      textarea#game-description.form-control(name="description", rows=5)
+        = game.description
+      br
+
+      p.text-right
+        button.btn.btn-primary 确认提交
+
+

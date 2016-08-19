@@ -4,10 +4,16 @@
 
 import Router = require("./Router");
 import Guide = require("./Guide");
+import _ = require('underscore');
+import {GuideEditor} from "./GuideEditor";
+import Backbone = require('backbone');
+import Model = Backbone.Model;
 
 class App {
   public router:Router;
   public guide:Guide;
+  public guideEditor: GuideEditor;
+  public activeView: Backbone.View<Model>;
 
   init(){
 

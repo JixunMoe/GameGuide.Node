@@ -4,9 +4,9 @@
 
 /// <reference path="AppInterface.ts" />
 import Backbone = require('backbone');
-import GuideModel = require('./GuideModel');
 import app = require('./App');
 import EventsHash = Backbone.EventsHash;
+import {GuideModel, Chapter} from "./GuideModel";
 
 interface ChaptersData {
   url: string,
@@ -14,12 +14,12 @@ interface ChaptersData {
   chapter_id: number
 }
 
-class GuideView extends Backbone.View<GuideModel.GuideModel> {
+class GuideView extends Backbone.View<GuideModel> {
   private $title: JQuery;
   private $content: JQuery;
   private $chapters: JQuery;
 
-  initialize(options?:Backbone.ViewOptions<GuideModel.GuideModel>):void {
+  initialize(options?:Backbone.ViewOptions<GuideModel>):void {
     super.initialize(options);
 
     this.$title = $('.title', this.$el);
@@ -49,7 +49,7 @@ class GuideView extends Backbone.View<GuideModel.GuideModel> {
     var chapters = this.model.chapters;
     this.$chapters.children('.chapter').each((i, chapter) => {
       let $chapter = $(chapter);
-      chapters.add(new GuideModel.Chapter({
+      chapters.add(new Chapter({
         id: parseInt($chapter.data('id')),
         url: $chapter.data('url'),
         title: $chapter.text().trim(),
@@ -61,7 +61,6 @@ class GuideView extends Backbone.View<GuideModel.GuideModel> {
 
 
     var chapter = this.model.activeChapter;
-    console.info(chapter)
 
     // Load data from page.
     chapter.loaded = true;
@@ -72,7 +71,7 @@ class GuideView extends Backbone.View<GuideModel.GuideModel> {
     console.info('Guide: Initial data populated.');
   }
 
-  render():Backbone.View<GuideModel.GuideModel> {
+  render():Backbone.View<GuideModel> {
     var chapter = this.model.activeChapter;
     this.$title.text(chapter.title);
     this.$content.html(chapter.content);
@@ -89,18 +88,24 @@ class Guide implements IAppComponent {
     console.info('initComponent: Guide');
     this.view = new GuideView({
       el: el,
-      model: new GuideModel.GuideModel()
+      model: new GuideModel()
     });
+
     this.view.populate();
+    app.activeView = this.view;
   }
 
   initialise() {
-    app.router.route(':game/:guide/:chapter', 'guide', this.route.bind(this));
+    app.router.route('guide/:guide/:chapter', 'guide', this.route.bind(this));
   }
 
-  route (game: string, guide: string, chapter: string) {
-    console.info(`Chapter -> ${chapter}`);
-    this.view.model.setActiveFromUrl(chapter);
+  route (guide: string, chapter: string) {
+    if (this.view) {
+      if (chapter != 'edit') {
+        console.info(`Chapter -> ${chapter}`);
+        this.view.model.setActiveFromUrl(chapter);
+      }
+    }
   }
 }
 

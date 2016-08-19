@@ -2,10 +2,10 @@
   "compilerOptions": {
     "module": "amd",
     "noImplicitAny": true,
-    "removeComments": true,
+    "removeComments": false,
     "preserveConstEnums": true,
     "outFile": "../public/javascripts/Loader.js",
-    "sourceMap": true,
+    "sourceMap": false,
     "target": "es6"
   },
   "files": [

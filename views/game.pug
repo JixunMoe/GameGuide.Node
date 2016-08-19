@@ -2,7 +2,7 @@ extends layout
 
 block content
   header
-    h1 《#{ game.title }》
+    h1 《#{ game.name }》
 
   main
     h2 游戏介绍
@@ -12,19 +12,28 @@ block content
       div.description!=marked(game.description)
       div.clearfix
 
-    h2 攻略 (#{guides.length})
-    table.table.table-striped
-      tr
-        th 制作
-        th 攻略名称
-        th 建立日期
-      each guide in guides
+    h2 攻略 (#{game.Guides.length})
+
+    if game.Guides.length == 0
+      p
+        | 还没有攻略呢，
+        a(href="/new/guide/" + game.id) 添加一个
+        | ？
+    else
+      table.table.table-striped
         tr
-          td= guide.username
-          td
-            a(href='/' + game.url + '/' + guide.url)
-              = guide.name
-          td=moment(guide.create_at).format('l')
+          th 制作
+          th 攻略名称
+          th 建立日期
+        each guide in game.Guides
+          tr
+            td= guide.User.name
+            td
+              a(href='/guide/' + guide.url)
+                = guide.name
+            td=moment(guide.create_at).format('l')
+      a.btn.btn-primary(href="/new/guide/" + game.id)
+        | 制作攻略
 
 block title
-    = "游戏《" + game.title + "》"
+    = "游戏《" + game.name + "》"
