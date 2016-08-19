@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
     .all([model.Game.findAll(gameParam), model.Guide.findAll(guideParam)])
     .then(values => {
       let [games, guides] = values;
-      
+
       games = games
         .filter(game => game.id)
         .map(g => {
