@@ -42,12 +42,15 @@ router.get('/', function(req, res, next) {
     .all([model.Game.findAll(gameParam), model.Guide.findAll(guideParam)])
     .then(values => {
       let [games, guides] = values;
-      console.info(guides[0]);
-      games = games.map(g => {
-        return _.extend({
-          guideCount: g.Guides.length > 0 ? g.Guides[0].dataValues.Count : 0
-        }, g.dataValues);
-      });
+      
+      games = games
+        .filter(game => game.id)
+        .map(g => {
+          return _.extend({
+            guideCount: g.Guides.length > 0 ? g.Guides[0].dataValues.Count : 0
+          }, g.dataValues);
+        });
+
       res.render('home', {
         games: games,
         guides: guides
