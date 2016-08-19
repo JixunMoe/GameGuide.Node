@@ -5,7 +5,7 @@ block content
     render="gameEditor",
     data-game-id=game.id
   )
-    form(method="POST", action="/edit/" + game.id)
+    form(method="POST", action="/edit/game/" + game.id)
       input(type="hidden", name="_csrf", value=session._csrfToken)
 
       label(for="game-name") 游戏标题
@@ -14,7 +14,7 @@ block content
 
       label(for="game-url") 访问地址
       .input-group
-        span.input-group-addon /view/
+        span.input-group-addon /game/
         input#game-url.form-control(name="url", value=game.url)
       br
 
