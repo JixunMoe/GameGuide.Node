@@ -387,8 +387,8 @@ router.get('/new/guide/:game', GuideController.AddGuide);
 router.get('/edit/game/:game', GuideController.EditGame);
 router.get('/edit/guide/:guide/', GuideController.EditGuide);
 
-router.post('/edit/:game', GuideController.UpdateGame);
-router.post('/edit/:game/:guide/', GuideController.UpdateGuide);
+router.post('/edit/game/:game', GuideController.UpdateGame);
+// router.post('/edit/guide/:guide/', GuideController.UpdateGuide);
 
 router.get('/game/:game', GuideController.RenderGame);
 router.get('/guide/:guide', GuideController.RenderGuide);
