@@ -10,7 +10,16 @@
   </div>
 
   <br>
-
+  {{#if is_header }}
+    <div class="input-group">
+    <span class="input-group-addon checkbox">
+      <label class="remove"><input type="checkbox" class="delete" />
+        删除
+      </label>
+    </span>
+    <input type="text" class="unused-url form-control" readonly value="这是一个章节，不需要提供地址。">
+    </div>
+  {{else}}
   <div class="input-group">
     <span class="input-group-addon checkbox">
       <label class="remove"><input type="checkbox" class="delete" />
@@ -32,6 +41,7 @@
       <div class="preview"></div>
     </div>
   </div>
+  {{/if}}
 
   <div class="clearfix"></div>
 </section>

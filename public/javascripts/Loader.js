@@ -297,7 +297,9 @@ define("GuideEditorModel", ["require", "exports", 'backbone', 'marked'], functio
             this.updatePreview();
         }
         updatePreview() {
-            this.preview = marked(this.content);
+            if (!this.is_header) {
+                this.preview = marked(this.content);
+            }
         }
         defaults() {
             return {
@@ -308,7 +310,8 @@ define("GuideEditorModel", ["require", "exports", 'backbone', 'marked'], functio
                 name: null,
                 order: null,
                 remove: false,
-                content: ''
+                content: '',
+                is_header: false
             };
         }
         get chapter_id() { return this.get('chapter_id'); }
@@ -329,9 +332,19 @@ define("GuideEditorModel", ["require", "exports", 'backbone', 'marked'], functio
         set preview(value) { this.set('preview', value); }
         get remove() { return this.get('remove'); }
         set remove(value) { this.set('remove', value); }
+        get is_header() { return this.get('is_header'); }
+        set is_header(value) { this.set('is_header', value); }
         toJSON(options) {
             if (this.remove) {
-                return { chapter_id: this.id, remove: true };
+                return { chapter_id: this.chapter_id, remove: true };
+            }
+            if (this.is_header) {
+                return {
+                    chapter_id: this.chapter_id,
+                    is_header: true,
+                    name: this.name,
+                    order: this.order
+                };
             }
             let result = super.toJSON(options);
             delete result.preview;
@@ -388,20 +401,34 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
         events() {
             return {
                 'click button.submit': this.submit,
-                'click button.add-chapter': this.addChapterClick
+                'click button.add-chapter': this.addChapterClick,
+                'click button.add-header': this.addHeaderClick
             };
         }
-        addChapterClick(e) {
+        get maxOrder() {
             let chapters = this.model.chapters.toJSON();
-            let maxOrder = chapters.reduce((max, chapter) => Math.max(max, chapter.order), 0);
-            this.addChapter({
+            return chapters.reduce((max, chapter) => Math.max(max, chapter.order), 0);
+        }
+        addChapterClick(e) {
+            let chapter = {
+                is_header: false,
                 chapter_id: 0,
                 guide_id: 0,
                 url: '新的章节',
                 name: '新的章节',
                 content: '',
-                order: maxOrder + 1
-            });
+                order: this.maxOrder + 1
+            };
+            this.addChapter(chapter);
+        }
+        addHeaderClick(e) {
+            let chapter = {
+                is_header: true,
+                chapter_id: 0,
+                name: '新的标题',
+                order: this.maxOrder + 1
+            };
+            this.addChapter(chapter);
         }
         addChapter(chapter) {
             let model = new GuideEditorModel_1.Chapter(chapter);

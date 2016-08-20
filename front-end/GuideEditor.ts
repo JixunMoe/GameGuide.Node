@@ -7,7 +7,10 @@ import {InputHelper} from "./InputHelper";
 import Backbone = require('backbone');
 import Handlebars = require('handlebars');
 import app = require('./App');
-import {Chapter, GuideViewBase, GuideModel, IChapter, Chapters, ChapterViewBase} from "./GuideEditorModel";
+import {
+  Chapter, GuideViewBase, GuideModel, IChapter, Chapters, ChapterViewBase,
+  IChapterBase, IChapterHeader
+} from "./GuideEditorModel";
 var tplEditChapter:HandlebarsTemplateDelegate = require('hbars!edit-chapter');
 
 export class GuideEditorView extends GuideViewBase {
@@ -25,25 +28,40 @@ export class GuideEditorView extends GuideViewBase {
   events():Backbone.EventsHash {
     return {
       'click button.submit': this.submit,
-      'click button.add-chapter': this.addChapterClick
+      'click button.add-chapter': this.addChapterClick,
+      'click button.add-header': this.addHeaderClick
     }
   }
 
-  addChapterClick(e:JQueryEventObject) {
+  get maxOrder(): number {
     let chapters: IChapter[] = this.model.chapters.toJSON();
-    let maxOrder = chapters.reduce((max, chapter) => Math.max(max, chapter.order), 0);
+    return chapters.reduce((max, chapter) => Math.max(max, chapter.order), 0);
+  }
 
-    this.addChapter({
+  addChapterClick(e:JQueryEventObject) {
+    let chapter: IChapter = {
+      is_header: false,
       chapter_id: 0,
       guide_id: 0,
       url: '新的章节',
       name: '新的章节',
       content: '',
-      order: maxOrder + 1
-    });
+      order: this.maxOrder + 1
+    };
+    this.addChapter(chapter);
   }
 
-  addChapter(chapter: IChapter) {
+  addHeaderClick(e:JQueryEventObject) {
+    let chapter: IChapterHeader = {
+      is_header: true,
+      chapter_id: 0,
+      name: '新的标题',
+      order: this.maxOrder + 1
+    };
+    this.addChapter(chapter);
+  }
+
+  addChapter(chapter: IChapterBase) {
     let model = new Chapter(chapter);
     let el = $(tplEditChapter(chapter)).appendTo(this.$chapters);
     var view = new ChapterEditorView({

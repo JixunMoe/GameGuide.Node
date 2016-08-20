@@ -27,12 +27,16 @@ block content
       h2 章节列表
       ul.list-group.chapters
         each chap in chapters
-          a.chapter.list-group-item(
-            class=active_chapter(chap),
-            href='/guide/' + guide.url + '/' + chap.url,
-            data-url=chap.url,
-            data-id=chap.id
-          ) #{chap.name}
+          if chap.dataValues.is_header == "1"
+            .list-group-item.list-group-item-success.chapter-header
+              h4= chap.name
+          else
+            a.chapter.list-group-item(
+              class=active_chapter(chap),
+              href='/guide/' + guide.url + '/' + chap.url,
+              data-url=chap.url,
+              data-id=chap.id
+            ) #{chap.name}
 
     section#chapter.col-xs-12.col-md-9
       h2.title= chapter.name

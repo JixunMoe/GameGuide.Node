@@ -58,7 +58,7 @@ class GuideController {
       include: [
         {
           model: model.Chapter,
-          attributes: [ 'id', 'name', 'url', 'order' ]
+          attributes: [ 'id', 'is_header', 'name', 'url', 'order' ]
         },
         {
           model: model.Game,
@@ -68,6 +68,10 @@ class GuideController {
           model: model.User,
           attributes: ['name']
         }
+      ],
+      order: [
+        [model.Chapter, 'order', 'ASC'],
+        [model.Chapter, 'id', 'ASC']
       ]
     }).then(guide => {
       _guide = guide;
@@ -128,6 +132,7 @@ class GuideController {
             'url',
             'name',
             'order',
+            'is_header',
             'content',
           ]
         },
@@ -268,6 +273,15 @@ class GuideController {
         };
       }
 
+      if (chapter.is_header) {
+        return {
+          id: chapter.chapter_id,
+          is_header: true,
+          order: chapter.order,
+          name: chapter.name
+        };
+      }
+
       let chapterUrl = chapter.url.toLowerCase().trim().replace(/\//g, '-');
       if (uniqueChapterUrls.indexOf(chapterUrl) != -1) {
         if (!/-\d+$/.test(chapterUrl)) {
@@ -299,7 +313,7 @@ class GuideController {
       });
 
       return newChap;
-    });
+    }).filter(chapter => chapter);
 
     let guidePromise;
     let param = {

@@ -8,15 +8,26 @@ import marked = require('marked');
 export class GuideViewBase extends Backbone.View<GuideModel> {}
 export class ChapterViewBase extends Backbone.View<Chapter>{}
 
-export interface IChapter {
+export interface IChapterBase {
   chapter_id: number;
-  guide_id: number;
-  url: string;
+  remove?: boolean;
+}
+
+export interface IChapterHeader extends IChapterBase {
+  is_header: boolean;
   name: string;
-  content: string;
+  order: number;
+}
+
+export interface IChapter extends IChapterBase {
+  is_header: boolean;
+  name: string;
   order: number;
 
-  remove?: boolean;
+  guide_id: number;
+  url: string;
+  content: string;
+
   preview?: string;
   view?: ChapterViewBase;
 }
@@ -30,7 +41,9 @@ export class Chapter extends Backbone.Model {
   }
 
   updatePreview () {
-    this.preview = marked(this.content);
+    if (!this.is_header) {
+      this.preview = marked(this.content);
+    }
   }
 
   defaults():Backbone.ObjectHash {
@@ -42,7 +55,8 @@ export class Chapter extends Backbone.Model {
       name: null,
       order: null,
       remove: false,
-      content: ''
+      content: '',
+      is_header: false
     };
   }
 
@@ -73,9 +87,21 @@ export class Chapter extends Backbone.Model {
   get remove(): boolean { return this.get('remove'); }
   set remove(value: boolean) { this.set('remove', value); }
 
-  toJSON(options?:any):any {
+  get is_header(): boolean { return this.get('is_header'); }
+  set is_header(value: boolean) { this.set('is_header', value); }
+
+  toJSON(options?:any):IChapterHeader|IChapter {
     if (this.remove) {
-      return { chapter_id: this.id, remove: true };
+      return { chapter_id: this.chapter_id, remove: true } as any;
+    }
+
+    if (this.is_header) {
+      return {
+        chapter_id: this.chapter_id,
+        is_header: true,
+        name: this.name,
+        order: this.order
+      };
     }
 
     let result = super.toJSON(options);
