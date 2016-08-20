@@ -9,7 +9,7 @@ export class GuideViewBase extends Backbone.View<GuideModel> {}
 export class ChapterViewBase extends Backbone.View<Chapter>{}
 
 export interface IChapter {
-  id: number;
+  chapter_id: number;
   guide_id: number;
   url: string;
   name: string;
@@ -46,8 +46,8 @@ export class Chapter extends Backbone.Model {
     };
   }
 
-  get id(): number { return this.get('chapter_id'); }
-  set id(value: number) { this.set('chapter_id', value); }
+  get chapter_id(): number { return this.get('chapter_id'); }
+  set chapter_id(value: number) { this.set('chapter_id', value); }
 
   get guide_id(): number { return this.get('guide_id'); }
   set guide_id(value: number) { this.set('guide_id', value); }

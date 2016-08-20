@@ -122,7 +122,14 @@ class GuideController {
       },
       include: [
         {
-          model: model.Chapter
+          model: model.Chapter,
+          attributes: [
+            ['id', 'chapter_id'],
+            'url',
+            'name',
+            'order',
+            'content',
+          ]
         },
         {
           model: model.Game,

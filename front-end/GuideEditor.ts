@@ -34,7 +34,7 @@ export class GuideEditorView extends GuideViewBase {
     let maxOrder = chapters.reduce((max, chapter) => Math.max(max, chapter.order), 0);
 
     this.addChapter({
-      id: 0,
+      chapter_id: 0,
       guide_id: 0,
       url: '新的章节',
       name: '新的章节',
@@ -75,7 +75,7 @@ export class GuideEditorView extends GuideViewBase {
       if (result.location) {
         location.pathname = result.location;
       }
-    }).fail(r => {
+    }).fail(err => {
       $btnSubmit.prop('disabled', false);
       alert('储存攻略发生错误，请稍后重试。');
     });
@@ -87,7 +87,6 @@ export class GuideEditorView extends GuideViewBase {
       .bind('short_desc', '#guide-desc')
       .bind('url', '#guide-url');
 
-    // TODO: Generate chapters
     let chapters: IChapter[] = this.$el.data('chapters');
     this.$el.removeAttr('data-chapters');
     chapters.forEach(this.addChapter, this);

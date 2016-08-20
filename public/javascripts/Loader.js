@@ -311,8 +311,8 @@ define("GuideEditorModel", ["require", "exports", 'backbone', 'marked'], functio
                 content: ''
             };
         }
-        get id() { return this.get('chapter_id'); }
-        set id(value) { this.set('chapter_id', value); }
+        get chapter_id() { return this.get('chapter_id'); }
+        set chapter_id(value) { this.set('chapter_id', value); }
         get guide_id() { return this.get('guide_id'); }
         set guide_id(value) { this.set('guide_id', value); }
         get url() { return this.get('url'); }
@@ -395,7 +395,7 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
             let chapters = this.model.chapters.toJSON();
             let maxOrder = chapters.reduce((max, chapter) => Math.max(max, chapter.order), 0);
             this.addChapter({
-                id: 0,
+                chapter_id: 0,
                 guide_id: 0,
                 url: '新的章节',
                 name: '新的章节',
@@ -431,7 +431,7 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
                 if (result.location) {
                     location.pathname = result.location;
                 }
-            }).fail(r => {
+            }).fail(err => {
                 $btnSubmit.prop('disabled', false);
                 alert('储存攻略发生错误，请稍后重试。');
             });
@@ -441,7 +441,6 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
                 .bind('name', '#guide-name')
                 .bind('short_desc', '#guide-desc')
                 .bind('url', '#guide-url');
-            // TODO: Generate chapters
             let chapters = this.$el.data('chapters');
             this.$el.removeAttr('data-chapters');
             chapters.forEach(this.addChapter, this);
