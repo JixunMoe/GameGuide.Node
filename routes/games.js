@@ -304,6 +304,7 @@ class GuideController {
     if (guideId == 0) {
       // 添加攻略
       param.UserId = req.session.user.id;
+      param.GameId = req.body.gameId;
       // TODO: 游戏 ID，简单描述
       guidePromise = model.Guide.create(param);
     } else {
@@ -338,6 +339,7 @@ class GuideController {
           let id = chapter.id;
           delete chapter.id;
           delete chapter.remove;
+          chapter.GuideId = _guide.id;
 
           if (existingIds.indexOf(id) == -1) {
             if (remove) {
@@ -347,6 +349,7 @@ class GuideController {
             }
 
             debug(`Create new Chapter: ${ id } (${ chapter.name })`);
+            debug(chapter);
             return model.Chapter.create(chapter);
           } else if (remove) {
             // delete
@@ -372,6 +375,7 @@ class GuideController {
         location: '/guide/' + encodeURIComponent(_guide.url)
       });
     }).catch(err => {
+      debug('Add guide error: ', err);
       next(err);
     });
   }

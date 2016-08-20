@@ -5,6 +5,12 @@ module.exports = function(sequelize, DataTypes) {
     url: DataTypes.STRING,
     short_desc: DataTypes.STRING,
   }, {
+    indexes: [
+      {
+        unique: true,
+        fields: ['url', 'name']
+      }
+    ],
     classMethods: {
       associate: function(models) {
         Guide.hasMany(models.Chapter);

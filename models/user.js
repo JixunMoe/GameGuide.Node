@@ -13,12 +13,8 @@ module.exports = function(sequelize, DataTypes) {
     indexes: [
       {
         unique: true,
-        fields: ['name']
-      },
-      {
-        unique: true,
-        fields: ['email']
-      },
+        fields: ['name', 'email']
+      }
     ],
     classMethods: {
       associate: function(models) {

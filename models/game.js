@@ -8,6 +8,12 @@ module.exports = function(sequelize, DataTypes) {
     cover_url: DataTypes.STRING,
     description: DataTypes.STRING
   }, {
+    indexes: [
+      {
+        unique: true,
+        fields: ['url', 'name']
+      }
+    ],
     classMethods: {
       associate: function(models) {
         Game.hasMany(models.Guide);

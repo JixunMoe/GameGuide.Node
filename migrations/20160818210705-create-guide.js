@@ -24,14 +24,25 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      GameId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Games',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
+      },
+      UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       }
-    }, {
-      indexes: [
-        {
-          unique: true,
-          fields: ['url']
-        }
-      ]
     });
   },
   down: function(queryInterface, Sequelize) {

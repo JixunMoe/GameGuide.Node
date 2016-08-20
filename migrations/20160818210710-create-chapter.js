@@ -27,7 +27,16 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      GuideId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Guides',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
+      },
     });
   },
   down: function(queryInterface, Sequelize) {

@@ -420,6 +420,7 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
             let guide_id = this.$el.data('guide-id');
             let data = this.model.toJSON();
             data._csrf = this.$el.data('csrf');
+            data.gameId = this.$el.data('game-id');
             $.ajax({
                 type: 'POST',
                 url: `/api/update/guide/${guide_id}`,
