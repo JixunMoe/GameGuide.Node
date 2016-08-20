@@ -157,6 +157,10 @@ class GuideController {
             'id', 'name', 'url'
           ]
         }
+      ],
+      order: [
+        [model.Chapter, 'order', 'ASC'],
+        [model.Chapter, 'id', 'ASC']
       ]
     }).then(guide => {
       if (guide.UserId != req.session.user.id) {
