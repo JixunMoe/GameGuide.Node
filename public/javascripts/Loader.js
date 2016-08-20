@@ -460,7 +460,9 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
                 }
             }).fail(err => {
                 $btnSubmit.prop('disabled', false);
-                alert('储存攻略发生错误，请稍后重试。');
+                alert(`储存攻略发生错误，请稍后重试。
+
+如果问题依旧，请检查攻略名称与 url 是否已经被占用。`);
             });
         }
         populate() {

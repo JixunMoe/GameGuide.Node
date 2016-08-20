@@ -18,7 +18,9 @@ var games = require('./routes/games');
 var app = express();
 
 app.locals.moment = moment;
-app.locals.marked = marked;
+app.locals.marked = function (text) {
+  return text ? marked(text) : '';
+};
 app.locals.excerpt = function (text, count) {
   if (!text || text.length == 0) return '无';
 

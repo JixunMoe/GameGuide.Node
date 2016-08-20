@@ -76,21 +76,36 @@ class GuideController {
     }).then(guide => {
       _guide = guide;
       let chapters = _chapters = guide.Chapters;
-      _chapter = _.find(chapters, chapter => chapter.url == req.params.chapter) || chapters[0];
-      _chapter.active = true;
-      return model.Chapter.findOne({
-        where: {
-          id: _chapter.id
-        },
-        attributes: [ 'content' ]
-      });
+      let filtered = chapters.filter(c => !c.is_header);
+      _chapter = _.find(filtered, c => c.url == req.params.chapter) || filtered[0];
+
+      if (_chapter) {
+        _chapter.active = true;
+        return model.Chapter.findOne({
+          where: {
+            id: _chapter.id
+          },
+          attributes: [ 'content' ]
+        });
+      } else {
+        res.render('guide', {
+          chapters: [],
+          chapter: {
+            name: '没有攻略!',
+            content: '请联系攻略作者添加内容！'
+          },
+          guide: _guide
+        });
+      }
     }).then(chapter => {
-      _chapter.content = chapter.content;
-      res.render('guide', {
-        chapter: _chapter,
-        chapters: _chapters,
-        guide: _guide
-      });
+      if (chapter) {
+        _chapter.content = chapter.content;
+        res.render('guide', {
+          chapter: _chapter,
+          chapters: _chapters,
+          guide: _guide
+        });
+      }
     }).catch(err => next(err));
   }
 
@@ -276,7 +291,7 @@ class GuideController {
       if (chapter.is_header) {
         return {
           id: chapter.chapter_id,
-          is_header: true,
+          is_header: 1,
           order: chapter.order,
           name: chapter.name
         };

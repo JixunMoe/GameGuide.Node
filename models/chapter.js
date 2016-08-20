@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     url: DataTypes.STRING,
     content: DataTypes.TEXT('long'),
     order: DataTypes.INTEGER,
+    is_header: DataTypes.BOOLEAN
   }, {
     classMethods: {
       associate: function(models) {
