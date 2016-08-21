@@ -23,7 +23,7 @@ block content
       br
 
       label(for="game-date") 游戏发布日期
-      input#game-date.form-control(name="release_date", value=game.release_date)
+      input#game-date.form-control(name="release_date", value=moment(game.release_date).format('l')
       br
 
       include includes/info_image
