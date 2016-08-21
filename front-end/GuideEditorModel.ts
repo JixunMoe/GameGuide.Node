@@ -3,7 +3,7 @@
  */
 
 import Backbone = require('backbone');
-import marked = require('marked');
+import marked = require("./FixMarkdown");
 
 export class GuideViewBase extends Backbone.View<GuideModel> {}
 export class ChapterViewBase extends Backbone.View<Chapter>{}

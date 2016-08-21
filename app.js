@@ -14,12 +14,13 @@ const debug =require('debug')('app:boot');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var games = require('./routes/games');
+var fixMarkdown = require('./ext/markdown');
 
 var app = express();
 
 app.locals.moment = moment;
 app.locals.marked = function (text) {
-  return text ? marked(text) : '';
+  return text ? fixMarkdown(marked(text)) : '';
 };
 app.locals.excerpt = function (text, count) {
   if (!text || text.length == 0) return '无';

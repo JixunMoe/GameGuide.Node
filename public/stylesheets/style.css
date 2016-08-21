@@ -166,3 +166,6 @@ span.separator {
 .chapter-content .preview warn {
   background: #fff080;
 }
+table.table.table-inline {
+  width: initial;
+}
