@@ -419,6 +419,48 @@ class GuideController {
       next(err);
     });
   }
+
+  static JumpGame(req, res, next) {
+    model.Game.findOne({
+      id: req.params.game,
+      attributes: ['url']
+    }).then(game => {
+      res.redirect(`/game/${ encodeURIComponent(game.url) }`);
+    }).catch(err => {
+      debug(err);
+      next()
+    });
+  }
+  static JumpGuide(req, res, next) {
+    model.Guide.findOne({
+      id: req.params.guide,
+      attributes: ['url']
+    }).then(guide => {
+      res.redirect(`/guide/${ encodeURIComponent(guide.url) }`);
+    }).catch(err => {
+      debug(err);
+      next()
+    });
+  }
+  static JumpChapter(req, res, next) {
+    model.Chapter.findOne({
+      id: req.params.chapter,
+      attributes: ['url'],
+      include: [
+        {
+          model: model.Guide,
+          attributes: ['url']
+        }
+      ]
+    }).then(chapter => {
+      let c = encodeURIComponent(chapter.url);
+      let g = encodeURIComponent(chapter.Guide.url);
+      res.redirect(`/guide/${ g }/${ c }`);
+    }).catch(err => {
+      debug(err);
+      next()
+    });
+  }
 }
 
 
@@ -433,6 +475,14 @@ router.get('/edit/guide/:guide/', GuideController.EditGuide);
 
 router.post('/edit/game/:game', GuideController.UpdateGame);
 // router.post('/edit/guide/:guide/', GuideController.UpdateGuide);
+
+router.get('/r/:game', GuideController.JumpGame);
+router.get('/game-id/:game', GuideController.JumpGame);
+
+router.get('/g/:guide', GuideController.JumpGuide);
+router.get('/guide/id/:guide', GuideController.JumpGuide);
+
+router.get('/c/:chapter', GuideController.JumpChapter);
 
 router.get('/game/:game', GuideController.RenderGame);
 router.get('/guide/:guide', GuideController.RenderGuide);
