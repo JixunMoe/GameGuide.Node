@@ -422,7 +422,9 @@ class GuideController {
 
   static JumpGame(req, res, next) {
     model.Game.findOne({
-      id: req.params.game,
+      where: {
+        id: req.params.game,
+      },
       attributes: ['url']
     }).then(game => {
       res.redirect(`/game/${ encodeURIComponent(game.url) }`);
@@ -433,9 +435,12 @@ class GuideController {
   }
   static JumpGuide(req, res, next) {
     model.Guide.findOne({
-      id: req.params.guide,
+      where: {
+        id: req.params.guide,
+      },
       attributes: ['url']
     }).then(guide => {
+      debug(guide);
       res.redirect(`/guide/${ encodeURIComponent(guide.url) }`);
     }).catch(err => {
       debug(err);
@@ -444,7 +449,9 @@ class GuideController {
   }
   static JumpChapter(req, res, next) {
     model.Chapter.findOne({
-      id: req.params.chapter,
+      where: {
+        id: req.params.chapter,
+      },
       attributes: ['url'],
       include: [
         {
