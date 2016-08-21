@@ -115,3 +115,50 @@ span.separator {
 .chapters .chapter-header h4 {
   margin: 0;
 }
+#chapter .content green,
+.chapter-content .preview green,
+#chapter .content red,
+.chapter-content .preview red,
+#chapter .content blue,
+.chapter-content .preview blue,
+#chapter .content yellow,
+.chapter-content .preview yellow,
+#chapter .content danger,
+.chapter-content .preview danger,
+#chapter .content info,
+.chapter-content .preview info,
+#chapter .content warn,
+.chapter-content .preview warn {
+  padding: 0 0.25em;
+  margin: 0 0.25em;
+  display: inline;
+  border: 1px solid transparent;
+}
+#chapter .content green,
+.chapter-content .preview green {
+  border-color: #32cd32;
+}
+#chapter .content red,
+.chapter-content .preview red {
+  border-color: #f00;
+}
+#chapter .content blue,
+.chapter-content .preview blue {
+  border-color: #00f;
+}
+#chapter .content yellow,
+.chapter-content .preview yellow {
+  border-color: #cc0;
+}
+#chapter .content danger,
+.chapter-content .preview danger {
+  background: #ffb6c1;
+}
+#chapter .content info,
+.chapter-content .preview info {
+  background: #cff;
+}
+#chapter .content warn,
+.chapter-content .preview warn {
+  background: #fff080;
+}
