@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       url: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(40)
       },
       short_desc: {
         type: Sequelize.STRING
