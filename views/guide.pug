@@ -29,7 +29,7 @@ block content
         each chap in chapters
           if chap.dataValues.is_header == "1"
             .list-group-item.list-group-item-success.chapter-header
-              h4= chap.name
+              h4= chap.name.trim()
           else
             a.chapter.list-group-item(
               class=active_chapter(chap),

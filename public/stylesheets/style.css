@@ -115,6 +115,10 @@ span.separator {
 .chapters .chapter-header h4 {
   margin: 0;
 }
+#chapter .content blockquote,
+.chapter-content .preview blockquote {
+  font-size: initial;
+}
 #chapter .content green,
 .chapter-content .preview green,
 #chapter .content red,

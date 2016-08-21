@@ -2,14 +2,24 @@ extends layout
 
 block content
   header
-    h1 《#{ game.name }》
+    h1
+      | 《#{ game.name }》
+      if session.user && session.user.id == game.UserId
+        .visible-xs-block
+        small
+          a(href="/edit/game/" + game.id) 编辑
 
   main
-    h2 游戏介绍
     section.game
       div.cover
         img.game-cover(src=game.cover_url, alt='游戏封面')
+
+      h2 游戏介绍
       div.description!=marked(game.description)
+
+      h2 相关信息
+      p 发售日期：#{moment(game.release_date).format('l')}
+      p 产品代码：#{game.release_id}
       div.clearfix
 
     h2 攻略 (#{game.Guides.length})
