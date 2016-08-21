@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING(255)
       },
       description: {
-        type: Sequelize.TEXT('medium')
+        type: Sequelize.TEXT
       },
       release_date: {
         allowNull: true,
