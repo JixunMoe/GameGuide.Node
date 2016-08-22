@@ -181,6 +181,7 @@ table.table.table-inline {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
+.chapter-header,
 .panel {
   -webkit-user-select: none;
   -ms-user-select: none;
