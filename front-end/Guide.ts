@@ -86,6 +86,7 @@ class GuideView extends Backbone.View<GuideModel> {
 
     if (!Duoshuo.dummy) {
       let id = chapter.get('id');
+      let guide = this.$el.data('guide');
       if (id != this.lastChapterId) {
         // 加载多说评论框
         this.lastChapterId = id;
@@ -97,7 +98,7 @@ class GuideView extends Backbone.View<GuideModel> {
             'thread-key': chapter.id,
             'url': location.protocol + '//' + location.host + '/c/' + chapter.id,
             'author-key': this.$el.data('author'),
-            'title': chapter.title,
+            'title': `${chapter.title} - ${guide}`,
           });
         Duoshuo.EmbedThread(this.$comment);
         this.$commentContainer
