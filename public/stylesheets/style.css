@@ -181,3 +181,13 @@ table.table.table-inline {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
+.panel {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+.panel-title > a {
+  text-decoration: none;
+}
