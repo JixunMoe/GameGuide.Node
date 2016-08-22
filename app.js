@@ -17,7 +17,9 @@ var games = require('./routes/games');
 var fixMarkdown = require('./ext/markdown');
 
 var app = express();
-
+const _config = require('./config');
+app.appConfig = _config;
+app.locals.appConfig = _config;
 app.locals.moment = moment;
 app.locals.marked = function (text) {
   return text ? fixMarkdown(marked(text)) : '';
@@ -55,7 +57,6 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(require('./middleware/session'));
-app.use(require('./middleware/duoshuo'));
 
 app.use('/', routes);
 app.use('/user', users);

@@ -139,14 +139,20 @@ define("GuideModel", ["require", "exports", 'backbone', 'marked'], function (req
 /**
  * Created by Jixun on 17/08/2016.
  */
-define("Guide", ["require", "exports", 'backbone', "App", "GuideModel"], function (require, exports, Backbone, app, GuideModel_1) {
+define("Guide", ["require", "exports", 'backbone', "App", "GuideModel", "duoshuo"], function (require, exports, Backbone, app, GuideModel_1) {
     "use strict";
+    var Duoshuo = require('duoshuo');
     class GuideView extends Backbone.View {
+        constructor(...args) {
+            super(...args);
+            this.lastChapterId = -1;
+        }
         initialize(options) {
             super.initialize(options);
-            this.$title = $('.title', this.$el);
-            this.$content = $('.content', this.$el);
-            this.$chapters = $('.chapters', this.$el);
+            this.$title = this.$('.title');
+            this.$content = this.$('.content');
+            this.$chapters = this.$('.chapters');
+            this.$commentContainer = this.$('.comments-container');
         }
         events() {
             return {
@@ -182,12 +188,32 @@ define("Guide", ["require", "exports", 'backbone', "App", "GuideModel"], functio
             chapter.loaded = true;
             chapter.content = this.$content.html();
             this.listenTo(this.model.chapters, 'change', this.render.bind(this));
+            this.render();
             console.info('Guide: Initial data populated.');
         }
         render() {
             var chapter = this.model.activeChapter;
             this.$title.text(chapter.title);
             this.$content.html(chapter.content);
+            if (!Duoshuo.dummy) {
+                let id = chapter.get('id');
+                if (id != this.lastChapterId) {
+                    // 加载多说评论框
+                    this.lastChapterId = id;
+                    console.info(`load duoshuo for chapter ${id}`);
+                    if (this.$comment)
+                        this.$comment.remove();
+                    this.$comment = $('<div>')
+                        .data({
+                        'thread-key': chapter.id,
+                        'url': location.protocol + '//' + location.host + '/c/' + chapter.id,
+                        'author-key': this.$el.data('author'),
+                        'title': chapter.title,
+                    });
+                    Duoshuo.EmbedThread(this.$comment);
+                    this.$commentContainer.append(this.$comment);
+                }
+            }
             return this;
         }
     }
@@ -556,5 +582,6 @@ define("Loader", ["require", "exports", "App", "Router", "Guide", "GuideEditor"]
     app.guideEditor.initialise();
     app.guide.initialise();
     app.run();
+    $(document.body).addClass('js');
     console.info('Loader: App is running.');
 });

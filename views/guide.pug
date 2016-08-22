@@ -21,6 +21,7 @@ block content
 
   main#guide.guide.render(
     data-chapter=chapter.url,
+    data-author=guide.UserId,
     render="guide"
   )
     section.col-xs-12.col-md-3
@@ -41,6 +42,14 @@ block content
     section#chapter.col-xs-12.col-md-9
       h2.title= chapter.name.trim()
       div.content!=marked(chapter.content)
+      div.comments-container
+        h2.header-comments 评论
+        noscript
+          p 启用 JavaScript 后即可参与评论。
+          p
+            | 评论系统由
+            a(href="http://duoshuo.com/",rel="nofollow external") 多说
+            | 强力驱动！
 
 block title
   = guide.name + " - 游戏攻略"

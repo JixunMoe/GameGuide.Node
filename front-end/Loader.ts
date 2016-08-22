@@ -17,4 +17,6 @@ app.guideEditor.initialise();
 app.guide.initialise();
 app.run();
 
+$(document.body).addClass('js');
+
 console.info('Loader: App is running.');

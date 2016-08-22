@@ -169,3 +169,13 @@ span.separator {
 table.table.table-inline {
   width: initial;
 }
+.comments-container {
+  background: #fff;
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 5px 0 #ccc;
+}
+.comments-container h2.header-comments {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}

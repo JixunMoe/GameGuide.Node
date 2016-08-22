@@ -2,11 +2,13 @@
  * Created by Jixun on 17/08/2016.
  */
 
+///<amd-dependency path="duoshuo" />
 /// <reference path="AppInterface.ts" />
 import Backbone = require('backbone');
 import app = require('./App');
 import EventsHash = Backbone.EventsHash;
 import {GuideModel, Chapter} from "./GuideModel";
+var Duoshuo: any = require('duoshuo');
 
 interface ChaptersData {
   url: string,
@@ -19,12 +21,17 @@ class GuideView extends Backbone.View<GuideModel> {
   private $content: JQuery;
   private $chapters: JQuery;
 
+  private lastChapterId: number = -1;
+  private $commentContainer: JQuery;
+  private $comment: JQuery;
+
   initialize(options?:Backbone.ViewOptions<GuideModel>):void {
     super.initialize(options);
 
-    this.$title = $('.title', this.$el);
-    this.$content = $('.content', this.$el);
-    this.$chapters = $('.chapters', this.$el);
+    this.$title = this.$('.title');
+    this.$content = this.$('.content');
+    this.$chapters = this.$('.chapters');
+    this.$commentContainer = this.$('.comments-container');
   }
 
   events(): EventsHash {
@@ -67,6 +74,7 @@ class GuideView extends Backbone.View<GuideModel> {
     chapter.content = this.$content.html();
 
     this.listenTo(this.model.chapters, 'change', this.render.bind(this));
+    this.render();
 
     console.info('Guide: Initial data populated.');
   }
@@ -75,6 +83,26 @@ class GuideView extends Backbone.View<GuideModel> {
     var chapter = this.model.activeChapter;
     this.$title.text(chapter.title);
     this.$content.html(chapter.content);
+
+    if (!Duoshuo.dummy) {
+      let id = chapter.get('id');
+      if (id != this.lastChapterId) {
+        // 加载多说评论框
+        this.lastChapterId = id;
+        console.info(`load duoshuo for chapter ${id}`);
+
+        if (this.$comment) this.$comment.remove();
+        this.$comment = $('<div>')
+          .data({
+            'thread-key': chapter.id,
+            'url': location.protocol + '//' + location.host + '/c/' + chapter.id,
+            'author-key': this.$el.data('author'),
+            'title': chapter.title,
+          });
+        Duoshuo.EmbedThread(this.$comment);
+        this.$commentContainer.append(this.$comment);
+      }
+    }
     return this;
   }
 
