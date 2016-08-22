@@ -100,7 +100,12 @@ class GuideView extends Backbone.View<GuideModel> {
             'title': chapter.title,
           });
         Duoshuo.EmbedThread(this.$comment);
-        this.$commentContainer.append(this.$comment);
+        this.$commentContainer
+          .append(this.$comment)
+          // 据说多说能在 300ms 加载完毕评论列表
+          .fadeOut(100)
+          .delay(100)
+          .fadeIn(100);
       }
     }
     return this;

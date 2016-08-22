@@ -211,7 +211,11 @@ define("Guide", ["require", "exports", 'backbone', "App", "GuideModel", "duoshuo
                         'title': chapter.title,
                     });
                     Duoshuo.EmbedThread(this.$comment);
-                    this.$commentContainer.append(this.$comment);
+                    this.$commentContainer
+                        .append(this.$comment)
+                        .fadeOut(100)
+                        .delay(100)
+                        .fadeIn(100);
                 }
             }
             return this;
