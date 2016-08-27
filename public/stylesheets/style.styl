@@ -7,6 +7,8 @@ screen-xs-max = screen-sm-min - 1px
 screen-sm-max = screen-md-min - 1px
 screen-md-max = screen-lg-min - 1px
 
+text-color = #333
+
 body
   background #f2f2f2
   padding-top: 70px
@@ -135,6 +137,18 @@ span.separator
   warn
     background #fff080
 
+red-text
+  color: #d70000
+
+green-text
+  color: green
+
+blue-text
+  color: blue
+
+yellow-text
+  color: yellow
+
 table.table.table-inline
   width initial
 
@@ -159,3 +173,29 @@ table.table.table-inline
 
 .panel-title > a
   text-decoration none
+
+blackout
+  padding 0 .5em
+  transition: color .5s, border-left-width .2s
+  border-left 5px solid lightskyblue
+/*
+  &::before
+    color: text-color
+    padding-right .5em
+    content "隐藏信息"
+    width 5em
+    white-space nowrap
+    display inline-block
+    transition: width .2s, opacity  .2s
+*/
+blackout:not(:hover)
+    color transparent
+    // opacity 0
+
+blackout:hover
+    border-left-width 0
+    /*
+    &::before
+      width 0
+      opacity 0
+    */

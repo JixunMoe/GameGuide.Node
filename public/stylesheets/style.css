@@ -166,6 +166,18 @@ span.separator {
 .chapter-content .preview warn {
   background: #fff080;
 }
+red-text {
+  color: #f00;
+}
+green-text {
+  color: #008000;
+}
+blue-text {
+  color: #00f;
+}
+yellow-text {
+  color: #ff0;
+}
 table.table.table-inline {
   width: initial;
 }
@@ -191,4 +203,30 @@ table.table.table-inline {
 }
 .panel-title > a {
   text-decoration: none;
+}
+blackout {
+  padding: 0 0.5em;
+  transition: color 0.5s, border-left-width 0.2s;
+  border-left: 5px solid #87cefa;
+}
+/*
+  &::before
+    color: text-color
+    padding-right .5em
+    content "隐藏信息"
+    width 5em
+    white-space nowrap
+    display inline-block
+    transition: width .2s, opacity  .2s
+*/
+blackout:not(:hover) {
+  color: transparent;
+}
+blackout:hover {
+  border-left-width: 0;
+/*
+    &::before
+      width 0
+      opacity 0
+    */
 }
