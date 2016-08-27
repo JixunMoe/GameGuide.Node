@@ -15,7 +15,7 @@ else
       link(rel='stylesheet', href='/stylesheets/style.css')
       meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
       script
-        | var duoshuoQuery={short_name:#{JSON.stringify(appConfig.ds_short_name)}};
+        | var duoshuoQuery={short_name:!{JSON.stringify(appConfig.ds_short_name)}};
     body
       nav.navbar.navbar-default.navbar-fixed-top
         .container
