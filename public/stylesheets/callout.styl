@@ -1,0 +1,34 @@
+@import "base.styl"
+
+callout
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+
+callout h4
+  margin-top: 0;
+  margin-bottom: 5px;
+
+callout p:last-child
+  margin-bottom: 0;
+
+callout code
+  border-radius: 3px;
+
+callout+callout
+  margin-top: -5px;
+
+callout-style(name, colour)
+  callout-{name}
+    border-left-color colour
+    h4
+      color colour
+
+callout-style("default", colour-default);
+callout-style("primary", colour-primary);
+callout-style("success", colour-success);
+callout-style("danger", colour-danger);
+callout-style("warning", colour-warning);
+callout-style("info", colour-info);

@@ -1,0 +1,29 @@
+colour-default = #777
+colour-primary = #428bca
+colour-success = #5cb85c
+colour-danger = #d9534f
+colour-warning = #f0ad4e
+colour-info = #5bc0de
+
+screen-xs-min = 480px
+screen-sm-min = 768px
+screen-md-min = 992px
+screen-lg-min = 1200px
+
+screen-xs-max = screen-sm-min - 1px
+screen-sm-max = screen-md-min - 1px
+screen-md-max = screen-lg-min - 1px
+
+text-color = #333
+vendor(prop, args...)
+  -webkit-{prop} args
+  -moz-{prop} args
+  -ms-{prop} args
+  -o-{prop} args
+  {prop} args
+
+filter(args...)
+  vendor("filter", args)
+
+user-select(args...)
+  vendor("user-select", args)
