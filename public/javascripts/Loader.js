@@ -606,12 +606,14 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
             this.$el.removeAttr('data-chapters');
             let remoteChapters = [];
             chapters.forEach(chapter => {
-                var chap_data = this._storage.get(chapter.chapter_id);
-                if (!chap_data || chap_data.updated != chapter.updated) {
-                    remoteChapters.push(chapter.chapter_id);
-                }
-                else if (chap_data) {
-                    chapter.content = chap_data.content;
+                if (!chapter.is_header) {
+                    var chap_data = this._storage.get(chapter.chapter_id);
+                    if (!chap_data || chap_data.updated != chapter.updated) {
+                        remoteChapters.push(chapter.chapter_id);
+                    }
+                    else if (chap_data) {
+                        chapter.content = chap_data.content;
+                    }
                 }
                 this.addChapter(chapter, false);
             }, this);
