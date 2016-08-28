@@ -349,8 +349,10 @@ class GuideController {
       guidePromise = model.Guide.create(param);
     } else {
       guidePromise = model.Guide.findOne({
-        id: guideId,
-        UserId: req.session.user.id
+        where: {
+          id: guideId,
+          UserId: req.session.user.id
+        }
       }).then(guide => {
         if (!guide) {
           throw new Error('攻略不存在或没有修改权限。');
