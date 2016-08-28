@@ -84,8 +84,9 @@ class GuideView extends Backbone.View<GuideModel> {
     var chapter = this.model.activeChapter;
     this.$title.text(chapter.title);
     this.$content.html(chapter.content);
+    let sep = "\x20- ";
 
-    document.title = `${chapter.title} - ${guide} - 梦姬攻略网`;
+    document.title = `${chapter.title}${sep}${guide}${sep}梦姬攻略网`;
 
     if (!Duoshuo.dummy) {
       let id = chapter.get('id');

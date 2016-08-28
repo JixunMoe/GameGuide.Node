@@ -196,7 +196,8 @@ define("Guide", ["require", "exports", 'backbone', "App", "GuideModel", "duoshuo
             var chapter = this.model.activeChapter;
             this.$title.text(chapter.title);
             this.$content.html(chapter.content);
-            document.title = `${chapter.title} - ${guide} - 梦姬攻略网`;
+            let sep = "\x20- ";
+            document.title = `${chapter.title}${sep}${guide}${sep}梦姬攻略网`;
             if (!Duoshuo.dummy) {
                 let id = chapter.get('id');
                 if (id != this.lastChapterId) {
