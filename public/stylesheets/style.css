@@ -206,10 +206,12 @@ table.table.table-inline {
   text-decoration: none;
 }
 blackout {
-  padding: 0 0.5em;
-  transition: color 0.5s, border-left-width 0.2s;
-  border-left: 5px solid #87cefa;
+  display: inline-block;
+  border: 5px solid #87cefa;
+  border-top: 0;
+  border-bottom: 0;
 }
+blackout,
 blackout img {
   transition: all 0.5s;
 }
@@ -224,5 +226,6 @@ blackout:not(:hover) img {
   filter: brightness(0);
 }
 blackout:hover {
-  border-left-width: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
 }
