@@ -1,3 +1,16 @@
+vendor(prop, args...)
+  -webkit-{prop} args
+  -moz-{prop} args
+  -ms-{prop} args
+  -o-{prop} args
+  {prop} args
+
+filter(args...)
+  vendor("filter", args)
+
+user-select(args...)
+  vendor("user-select", args)
+
 screen-xs-min = 480px
 screen-sm-min = 768px
 screen-md-min = 992px
@@ -165,9 +178,6 @@ table.table.table-inline
     margin-bottom .5em
 
 .chapter-header, .panel
-  -webkit-user-select: none
-  -ms-user-select: none
-  -moz-user-select: none
   user-select: none
   cursor: default
 
@@ -178,24 +188,13 @@ blackout
   padding 0 .5em
   transition: color .5s, border-left-width .2s
   border-left 5px solid lightskyblue
-/*
-  &::before
-    color: text-color
-    padding-right .5em
-    content "隐藏信息"
-    width 5em
-    white-space nowrap
-    display inline-block
-    transition: width .2s, opacity  .2s
-*/
+  img
+    transition all .5s
+
 blackout:not(:hover)
-    color transparent
-    // opacity 0
+  color transparent
+  img
+    filter brightness(0)
 
 blackout:hover
-    border-left-width 0
-    /*
-    &::before
-      width 0
-      opacity 0
-    */
+  border-left-width 0

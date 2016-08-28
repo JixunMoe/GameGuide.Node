@@ -167,7 +167,7 @@ span.separator {
   background: #fff080;
 }
 red-text {
-  color: #f00;
+  color: #d70000;
 }
 green-text {
   color: #008000;
@@ -196,8 +196,9 @@ table.table.table-inline {
 .chapter-header,
 .panel {
   -webkit-user-select: none;
-  -ms-user-select: none;
   -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
   user-select: none;
   cursor: default;
 }
@@ -209,24 +210,19 @@ blackout {
   transition: color 0.5s, border-left-width 0.2s;
   border-left: 5px solid #87cefa;
 }
-/*
-  &::before
-    color: text-color
-    padding-right .5em
-    content "隐藏信息"
-    width 5em
-    white-space nowrap
-    display inline-block
-    transition: width .2s, opacity  .2s
-*/
+blackout img {
+  transition: all 0.5s;
+}
 blackout:not(:hover) {
   color: transparent;
 }
+blackout:not(:hover) img {
+  -webkit-filter: brightness(0);
+  -moz-filter: brightness(0);
+  -ms-filter: brightness(0);
+  -o-filter: brightness(0);
+  filter: brightness(0);
+}
 blackout:hover {
   border-left-width: 0;
-/*
-    &::before
-      width 0
-      opacity 0
-    */
 }
