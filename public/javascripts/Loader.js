@@ -211,7 +211,7 @@ define("Guide", ["require", "exports", 'backbone', "App", "GuideModel", "duoshuo
                         'thread-key': chapter.id,
                         'url': location.protocol + '//' + location.host + '/c/' + chapter.id,
                         'author-key': this.$el.data('author'),
-                        'title': `${chapter.title} - ${guide}`,
+                        'title': `${chapter.title}${sep}${guide}`,
                     });
                     Duoshuo.EmbedThread(this.$comment);
                     this.$commentContainer
