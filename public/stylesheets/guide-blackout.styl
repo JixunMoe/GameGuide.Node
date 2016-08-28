@@ -1,0 +1,18 @@
+// Blackout spoiler contents.
+blackout
+  display inline-block
+  border 5px solid lightskyblue
+  border-top 0
+  border-bottom 0
+
+blackout, blackout img
+  transition all .5s
+
+blackout:not(:hover)
+  color transparent
+  img
+    filter brightness(0)
+
+blackout:hover
+  border-left-color transparent
+  border-right-color transparent

@@ -126,40 +126,6 @@ callout-info h4 {
   user-select: none;
   cursor: default;
 }
-body {
-  background: #f2f2f2;
-  padding-top: 70px;
-  font-family: "Helvetica Neue", Helvetica, "Microsoft JhengHei UI", "Microsoft YaHei UI", Arial, sans-serif;
-  font-size: 150%;
-}
-table {
-  background: #fff;
-}
-table.table.table-inline {
-  width: initial;
-}
-a.reset-pw {
-  margin-left: 2em;
-}
-span.caret {
-  margin-left: 0.5em;
-}
-h1 > small {
-  margin-left: 1em;
-}
-hr {
-  border-top-color: #ddd;
-  width: 75%;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-.btn-icon-left {
-  padding-right: 0.5em;
-}
-span.separator {
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
 green,
 red,
 blue,
@@ -205,30 +171,40 @@ blue-text {
 yellow-text {
   color: #ff0;
 }
+body {
+  background: #f2f2f2;
+  padding-top: 70px;
+  font-family: "Helvetica Neue", Helvetica, "Microsoft JhengHei UI", "Microsoft YaHei UI", Arial, sans-serif;
+  font-size: 150%;
+}
+table {
+  background: #fff;
+}
+table.table.table-inline {
+  width: initial;
+}
+a.reset-pw {
+  margin-left: 2em;
+}
+span.caret {
+  margin-left: 0.5em;
+}
+h1 > small {
+  margin-left: 1em;
+}
+hr {
+  border-top-color: #ddd;
+  width: 75%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.btn-icon-left {
+  padding-right: 0.5em;
+}
+span.separator {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
 .panel-title > a {
   text-decoration: none;
-}
-blackout {
-  display: inline-block;
-  border: 5px solid #87cefa;
-  border-top: 0;
-  border-bottom: 0;
-}
-blackout,
-blackout img {
-  transition: all 0.5s;
-}
-blackout:not(:hover) {
-  color: transparent;
-}
-blackout:not(:hover) img {
-  -webkit-filter: brightness(0);
-  -moz-filter: brightness(0);
-  -ms-filter: brightness(0);
-  -o-filter: brightness(0);
-  filter: brightness(0);
-}
-blackout:hover {
-  border-left-color: transparent;
-  border-right-color: transparent;
 }

@@ -2,6 +2,7 @@
 @import "callout.styl"
 @import "game.styl"
 @import "guide.styl"
+@import "guide-text.styl"
 
 body
   background #f2f2f2
@@ -26,71 +27,16 @@ h1 > small
 
 hr
   border-top-color #ddd
-  width: 75%;
-  margin-top: 30px;
-  margin-bottom: 30px
+  width         75%
+  margin-top    30px
+  margin-bottom 30px
 
 .btn-icon-left
   padding-right 0.5em
 
 span.separator
-  padding-left .5em
+  padding-left  .5em
   padding-right .5em
-
-// Basic style for text.
-green, red, blue, yellow,
-danger, info, warn
-  padding 0 .25em
-  margin 0 .25em
-  display inline
-  border 1px solid transparent
-
-green
-  border-color #32cd32
-red
-  border-color #f00
-blue
-  border-color #00f
-yellow
-  border-color #cc0
-
-danger
-  background: #ffb6c1
-info
-  background #ccffff
-warn
-  background #fff080
-
-red-text
-  color: #d70000
-
-green-text
-  color: green
-
-blue-text
-  color: blue
-
-yellow-text
-  color: yellow
 
 .panel-title > a
   text-decoration none
-
-// Blackout spoiler contents.
-blackout
-  display inline-block
-  border 5px solid lightskyblue
-  border-top 0
-  border-bottom 0
-
-blackout, blackout img
-  transition all .5s
-
-blackout:not(:hover)
-  color transparent
-  img
-    filter brightness(0)
-
-blackout:hover
-  border-left-color transparent
-  border-right-color transparent
