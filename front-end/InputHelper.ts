@@ -15,7 +15,7 @@ export class InputHelper {
     this.keys = [];
 
     // console.info(this.base.$el, base.$el);
-    console.info('Bind event on: ', this.base.$el);
+    // console.info('Bind event on: ', this.base.$el);
     this.base.$el.on('change', '.data-input', this.changed.bind(this));
   }
 
@@ -33,6 +33,12 @@ export class InputHelper {
     if (value != this.base.model.get(key)) {
       this.base.model.set(key, value);
     }
+
+    /*
+    this.base.model.on(`change:${key}`, (model: Backbone.Model, value: any) => {
+      // TODO: SYNC ?
+    });
+    */
 
     this.keys.push(key);
     return this;
@@ -73,6 +79,18 @@ export class InputHelper {
 
       if (data.helperInstance == this) {
         this.base.model.set(data.key, InputHelper.getValue($input));
+      }
+    });
+  }
+
+  syncToUi(key: string) {
+    // console.info(`syncToUi: ${key}`);
+    $('.data-input', this.base.$el).each((i, input) => {
+      let $input = $(input);
+      let data = $input.data();
+
+      if (data.helperInstance == this && data.key == key) {
+        InputHelper.setValue($input, this.base.model.get(data.key));
       }
     });
   }

@@ -258,7 +258,7 @@ define("InputHelper", ["require", "exports", 'underscore', 'jquery'], function (
             this.base = base;
             this.keys = [];
             // console.info(this.base.$el, base.$el);
-            console.info('Bind event on: ', this.base.$el);
+            // console.info('Bind event on: ', this.base.$el);
             this.base.$el.on('change', '.data-input', this.changed.bind(this));
         }
         bind(key, el) {
@@ -273,6 +273,11 @@ define("InputHelper", ["require", "exports", 'underscore', 'jquery'], function (
             if (value != this.base.model.get(key)) {
                 this.base.model.set(key, value);
             }
+            /*
+            this.base.model.on(`change:${key}`, (model: Backbone.Model, value: any) => {
+              // TODO: SYNC ?
+            });
+            */
             this.keys.push(key);
             return this;
         }
@@ -309,6 +314,16 @@ define("InputHelper", ["require", "exports", 'underscore', 'jquery'], function (
                 }
             });
         }
+        syncToUi(key) {
+            // console.info(`syncToUi: ${key}`);
+            $('.data-input', this.base.$el).each((i, input) => {
+                let $input = $(input);
+                let data = $input.data();
+                if (data.helperInstance == this && data.key == key) {
+                    InputHelper.setValue($input, this.base.model.get(data.key));
+                }
+            });
+        }
     }
     exports.InputHelper = InputHelper;
 });
@@ -340,6 +355,7 @@ define("GuideEditorModel", ["require", "exports", 'backbone', "FixMarkdown"], fu
         constructor(...args) {
             super(...args);
             this._dataChanged = false;
+            this.disableChangeDetection = false;
         }
         initialize(attributes, options) {
             super.initialize(attributes, options);
@@ -350,6 +366,9 @@ define("GuideEditorModel", ["require", "exports", 'backbone', "FixMarkdown"], fu
             this.updatePreview();
         }
         dataChanged() {
+            if (this.disableChangeDetection) {
+                return;
+            }
             this._dataChanged = true;
             // Turn off all listeners.
             Chapter._detectChange.forEach(key => {
@@ -427,6 +446,9 @@ define("GuideEditorModel", ["require", "exports", 'backbone', "FixMarkdown"], fu
             let result = super.toJSON(options);
             return result.filter((chapter) => chapter);
         }
+        byId(id) {
+            return this.findWhere({ chapter_id: id });
+        }
     }
     exports.Chapters = Chapters;
     class GuideModel extends Backbone.Model {
@@ -459,9 +481,44 @@ define("GuideEditorModel", ["require", "exports", 'backbone', "FixMarkdown"], fu
     exports.GuideModel = GuideModel;
 });
 /**
+ * Created by Jixun on 28/08/2016.
+ */
+define("Storage", ["require", "exports"], function (require, exports) {
+    "use strict";
+    class Storage {
+        constructor(key) {
+            this._key = key;
+            this._cache = this.baseData;
+        }
+        get key() { return this._key; }
+        get baseData() {
+            try {
+                return JSON.parse(localStorage.getItem(this.key)) || {};
+            }
+            catch (err) {
+                return {};
+            }
+        }
+        set baseData(value) {
+            if (typeof (value) != 'string')
+                value = JSON.stringify(value);
+            localStorage.setItem(this.key, value);
+        }
+        get(id) {
+            return this._cache[id];
+        }
+        set(id, value) {
+            this._cache[id] = value;
+            this._cache._time = +new Date();
+            this.baseData = this._cache;
+        }
+    }
+    exports.Storage = Storage;
+});
+/**
  * Created by Jixun on 18/08/2016.
  */
-define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorModel", "hbars!edit-chapter"], function (require, exports, InputHelper_1, app, GuideEditorModel_1) {
+define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorModel", "Storage", "hbars!edit-chapter"], function (require, exports, InputHelper_1, app, GuideEditorModel_1, Storage_1) {
     "use strict";
     var tplEditChapter = require('hbars!edit-chapter');
     class GuideEditorView extends GuideEditorModel_1.GuideViewBase {
@@ -543,9 +600,49 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
                 .bind('name', '#guide-name')
                 .bind('short_desc', '#guide-desc')
                 .bind('url', '#guide-url');
+            let gid = this.$el.data('guide-id');
+            this._storage = new Storage_1.Storage(`guide_${gid}`);
             let chapters = this.$el.data('chapters');
             this.$el.removeAttr('data-chapters');
-            chapters.forEach(chapter => this.addChapter(chapter, false), this);
+            let remoteChapters = [];
+            chapters.forEach(chapter => {
+                var chap_data = this._storage.get(chapter.chapter_id);
+                if (!chap_data || chap_data.updated != chapter.updated) {
+                    remoteChapters.push(chapter.chapter_id);
+                }
+                else if (chap_data) {
+                    chapter.content = chap_data.content;
+                }
+                this.addChapter(chapter, false);
+            }, this);
+            if (remoteChapters.length > 0) {
+                let chapterIds = remoteChapters.join(',');
+                $.getJSON(`/api/chapters/${gid}/${chapterIds}`)
+                    .done(data => {
+                    if (data.success) {
+                        let chapters = data.data;
+                        chapters.forEach(chapter => {
+                            let chap = this.model.chapters.byId(chapter.id);
+                            let oldChangeDetection = chap.disableChangeDetection;
+                            chap.disableChangeDetection = true;
+                            chap.content = chapter.content;
+                            chap.disableChangeDetection = oldChangeDetection;
+                            let view = chap.view;
+                            view.syncChapter();
+                            var chap_data = this._storage.get(chapter.id) || {};
+                            chap_data.updated = chapter.updated;
+                            chap_data.content = chapter.content;
+                            this._storage.set(chapter.id, chap_data);
+                        });
+                    }
+                    else {
+                        alert(data.data);
+                    }
+                })
+                    .fail(err => {
+                    alert('网络或服务器错误，请稍后刷新重试。');
+                });
+            }
         }
     }
     exports.GuideEditorView = GuideEditorView;
@@ -568,6 +665,9 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
                 .bind('content', '.content')
                 .bind('remove', '.delete')
                 .bind('order', '.order');
+        }
+        syncChapter() {
+            this.inputHelper.syncToUi('content');
         }
     }
     exports.ChapterEditorView = ChapterEditorView;

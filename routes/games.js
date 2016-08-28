@@ -3,6 +3,7 @@
  */
 var debug = require('debug')('controller:game');
 var express = require('express');
+var moment = require("moment");
 var router = express.Router();
 var model = require('../models');
 const _ = require('underscore');
@@ -19,6 +20,41 @@ class GuideController {
     }).catch(err => {
       debug('ChapterAjax: ' + err);
       res.send({ data: `服务器发生错误，请稍后刷新重试~` })
+    });
+  }
+  static GetChaptersAjax(req, res, next) {
+    let chapterIds = req.params.chapters
+      .split(',')
+      .map(x => parseInt(x))
+      .filter(x => x);
+
+    model.Guide.findOne({
+      where: {
+        id: req.params.guide,
+        UserId: req.session.user.id
+      },
+      include: [
+        {
+          model: model.Chapter,
+          where: {
+            id: chapterIds
+          },
+          attributes: ['id', 'content', 'updatedAt']
+        }
+      ]
+    }).then(guide => {
+      /** @type Object[] */
+      let chapters = guide.Chapters.map(c => c.dataValues);
+
+      chapters.forEach(chapter => {
+        chapter.updated = chapter.updatedAt.getTime();
+        delete chapter.updatedAt;
+      });
+
+      res.send({ data: chapters, success: true });
+    }).catch(err => {
+      debug('ChapterAjax: ' + err);
+      res.send({ data: `服务器发生错误，请稍后刷新重试。`, success: false })
     });
   }
   static RenderGame(req, res, next) {
@@ -148,7 +184,8 @@ class GuideController {
             'name',
             'order',
             'is_header',
-            'content',
+            //'content',
+            'updatedAt'
           ]
         },
         {
@@ -163,14 +200,22 @@ class GuideController {
         [model.Chapter, 'id', 'ASC']
       ]
     }).then(guide => {
-      if (guide.UserId != req.session.user.id) {
+      if (!guide || guide.UserId != req.session.user.id) {
         next(new Error('攻略不存在或没有编辑权限！'));
         return ;
       }
 
+      /** @type Object[] */
+      let chapters = guide.Chapters.map(chapter => chapter.dataValues);
+
+      chapters.forEach(chap => {
+        chap.updated = chap.updatedAt.getTime();
+        delete chap.updatedAt;
+      });
+
       res.render('edit-guide', {
         guide: guide,
-        chapters: guide.Chapters
+        chapters: chapters
       });
     }).catch(err => next(err));
   }
@@ -474,6 +519,7 @@ class GuideController {
 
 
 router.get ('/api/chapter/:chapter', GuideController.GetChapterAjax);
+router.get ('/api/chapters/:guide/:chapters', GuideController.GetChaptersAjax);
 router.post('/api/update/guide/:guide', GuideController.UpdateGuide);
 
 router.get('/new/game', GuideController.AddGame);

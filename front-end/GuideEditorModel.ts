@@ -6,7 +6,8 @@ import Backbone = require('backbone');
 import marked = require("./FixMarkdown");
 
 export class GuideViewBase extends Backbone.View<GuideModel> {}
-export class ChapterViewBase extends Backbone.View<Chapter>{}
+export class ChapterViewBase extends Backbone.View<Chapter>{
+}
 
 export interface IChapterBase {
   chapter_id: number;
@@ -19,6 +20,12 @@ export interface IChapterHeader extends IChapterBase {
   order: number;
 }
 
+export interface IRemoteChapter {
+  id: number;
+  updated: number;
+  content: string;
+}
+
 export interface IChapter extends IChapterBase {
   is_header: boolean;
   name: string;
@@ -27,6 +34,7 @@ export interface IChapter extends IChapterBase {
   guide_id: number;
   url: string;
   content: string;
+  updated?: number;
 
   preview?: string;
   view?: ChapterViewBase;
@@ -35,6 +43,7 @@ export interface IChapter extends IChapterBase {
 export class Chapter extends Backbone.Model {
   private _dataChanged: boolean = false;
   private static _detectChange: string[] = 'url,name,order,remove,content'.split(',');
+  public disableChangeDetection: boolean = false;
 
   initialize(attributes?:any, options?:any):void {
     super.initialize(attributes, options);
@@ -47,6 +56,10 @@ export class Chapter extends Backbone.Model {
   }
 
   dataChanged() {
+    if (this.disableChangeDetection) {
+      return ;
+    }
+
     this._dataChanged = true;
 
     // Turn off all listeners.
@@ -140,6 +153,10 @@ export class Chapters extends Backbone.Collection<Chapter> {
   toJSON(options?: any): any {
     let result = super.toJSON(options);
     return result.filter((chapter:IChapterBase) => chapter);
+  }
+
+  byId(id: number): Chapter {
+    return this.findWhere({ chapter_id: id });
   }
 }
 

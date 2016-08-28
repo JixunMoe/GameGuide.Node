@@ -8,15 +8,16 @@ import Backbone = require('backbone');
 import Handlebars = require('handlebars');
 import app = require('./App');
 import {
-  Chapter, GuideViewBase, GuideModel, IChapter, Chapters, ChapterViewBase,
-  IChapterBase, IChapterHeader
+  Chapter, GuideViewBase, GuideModel, IChapter, ChapterViewBase,
+  IChapterBase, IChapterHeader, IRemoteChapter
 } from "./GuideEditorModel";
+import { Storage } from "./Storage";
 var tplEditChapter:HandlebarsTemplateDelegate = require('hbars!edit-chapter');
 
 export class GuideEditorView extends GuideViewBase {
   private inputHelper: InputHelper;
   private $chapters: JQuery;
-
+  private _storage: Storage;
 
   initialize(options?:Backbone.ViewOptions<GuideModel>):void {
     super.initialize(options);
@@ -107,9 +108,53 @@ export class GuideEditorView extends GuideViewBase {
       .bind('short_desc', '#guide-desc')
       .bind('url', '#guide-url');
 
+    let gid = this.$el.data('guide-id');
+    this._storage = new Storage(`guide_${ gid }`);
+
     let chapters: IChapter[] = this.$el.data('chapters');
     this.$el.removeAttr('data-chapters');
-    chapters.forEach(chapter => this.addChapter(chapter, false), this);
+    let remoteChapters: number[] = [];
+    chapters.forEach(chapter => {
+      var chap_data: IChapter = this._storage.get(chapter.chapter_id);
+      if (!chap_data || chap_data.updated != chapter.updated) {
+        remoteChapters.push(chapter.chapter_id);
+      } else if (chap_data) {
+        chapter.content = chap_data.content;
+      }
+      this.addChapter(chapter, false);
+    }, this);
+
+    if (remoteChapters.length > 0) {
+      let chapterIds = remoteChapters.join(',');
+      $.getJSON(`/api/chapters/${ gid }/${ chapterIds }`)
+        .done(data => {
+          if (data.success) {
+            let chapters: IRemoteChapter[] = data.data;
+
+            chapters.forEach(chapter => {
+              let chap = this.model.chapters.byId(chapter.id);
+
+              let oldChangeDetection = chap.disableChangeDetection;
+              chap.disableChangeDetection = true;
+              chap.content = chapter.content;
+              chap.disableChangeDetection = oldChangeDetection;
+
+              let view = (chap.view as ChapterEditorView);
+              view.syncChapter();
+
+              var chap_data: IChapter = this._storage.get(chapter.id) || {};
+              chap_data.updated = chapter.updated;
+              chap_data.content = chapter.content;
+              this._storage.set(chapter.id, chap_data);
+            });
+          } else {
+            alert(data.data);
+          }
+        })
+        .fail(err => {
+          alert('网络或服务器错误，请稍后刷新重试。');
+        });
+    }
   }
 }
 
@@ -139,6 +184,10 @@ export class ChapterEditorView extends ChapterViewBase{
       .bind('content', '.content')
       .bind('remove', '.delete')
       .bind('order', '.order');
+  }
+
+  syncChapter() {
+    this.inputHelper.syncToUi('content');
   }
 }
 

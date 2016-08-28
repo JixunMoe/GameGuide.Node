@@ -66,6 +66,7 @@
 /** @var {string} req.params.game */
 /** @var {string} req.params.guide */
 /** @var {string} req.params.chapter */
+/** @var {string} req.params.chapters */
 
 /** @var {string} req.body.mail */
 /** @var {string} req.body.passwd */
