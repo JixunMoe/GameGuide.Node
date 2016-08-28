@@ -87,6 +87,114 @@ callout-info h4 {
     max-height: 400px;
   }
 }
+.guide green,
+.guide red,
+.guide blue,
+.guide yellow,
+.guide danger,
+.guide info,
+.guide warn {
+  padding: 0 0.25em;
+  margin: 0 0.25em;
+  display: inline;
+  border: 1px solid transparent;
+}
+.guide green {
+  border-color: #32cd32;
+}
+.guide red {
+  border-color: #f00;
+}
+.guide blue {
+  border-color: #00f;
+}
+.guide yellow {
+  border-color: #cc0;
+}
+.guide danger {
+  background: #ffb6c1;
+}
+.guide info {
+  background: #cff;
+}
+.guide warn {
+  background: #fff080;
+}
+.guide red-text {
+  color: #d70000;
+}
+.guide green-text {
+  color: #008000;
+}
+.guide blue-text {
+  color: #00f;
+}
+.guide yellow-text {
+  color: #ff0;
+}
+blackout {
+  display: inline-block;
+  border: 5px solid #87cefa;
+  border-top: 0;
+  border-bottom: 0;
+}
+blackout,
+blackout img {
+  transition: all 0.5s;
+}
+blackout:not(:hover) {
+  color: transparent;
+}
+blackout:not(:hover) img {
+  -webkit-filter: brightness(0);
+  -moz-filter: brightness(0);
+  -ms-filter: brightness(0);
+  -o-filter: brightness(0);
+  filter: brightness(0);
+}
+blackout:hover {
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.chapter-editor .order {
+  width: 5em;
+}
+.chapter-editor .url {
+  width: calc(100% + 1px);
+  margin-left: -1px;
+}
+.chapter-editor .name {
+  width: calc(100% - 5em + 1px);
+  margin-left: -1px;
+}
+.chapter-editor label.remove {
+  padding-top: 3px;
+}
+.chapter-editor .chapter-content {
+  height: 20em;
+}
+.chapter-editor .editor-wrap {
+  height: 100%;
+}
+.chapter-editor textarea {
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  resize: none;
+}
+.chapter-editor .preview-wrap {
+  max-height: 100%;
+  width: 100%;
+}
+@media (min-width: 992px) {
+  .chapter-editor .preview-wrap {
+    width: calc(50% - 1em);
+  }
+}
+.chapter-editor textarea,
+.chapter-editor .preview-wrap {
+  overflow-y: auto;
+}
 .guide-count {
   margin-left: 0.5em;
   cursor: help;
@@ -125,51 +233,6 @@ callout-info h4 {
   -o-user-select: none;
   user-select: none;
   cursor: default;
-}
-green,
-red,
-blue,
-yellow,
-danger,
-info,
-warn {
-  padding: 0 0.25em;
-  margin: 0 0.25em;
-  display: inline;
-  border: 1px solid transparent;
-}
-green {
-  border-color: #32cd32;
-}
-red {
-  border-color: #f00;
-}
-blue {
-  border-color: #00f;
-}
-yellow {
-  border-color: #cc0;
-}
-danger {
-  background: #ffb6c1;
-}
-info {
-  background: #cff;
-}
-warn {
-  background: #fff080;
-}
-red-text {
-  color: #d70000;
-}
-green-text {
-  color: #008000;
-}
-blue-text {
-  color: #00f;
-}
-yellow-text {
-  color: #ff0;
 }
 body {
   background: #f2f2f2;
