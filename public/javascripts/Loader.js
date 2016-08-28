@@ -192,12 +192,13 @@ define("Guide", ["require", "exports", 'backbone', "App", "GuideModel", "duoshuo
             console.info('Guide: Initial data populated.');
         }
         render() {
+            let guide = this.$el.data('guide');
             var chapter = this.model.activeChapter;
             this.$title.text(chapter.title);
             this.$content.html(chapter.content);
+            document.title = `${chapter.title} - ${guide} - 梦姬攻略网`;
             if (!Duoshuo.dummy) {
                 let id = chapter.get('id');
-                let guide = this.$el.data('guide');
                 if (id != this.lastChapterId) {
                     // 加载多说评论框
                     this.lastChapterId = id;
