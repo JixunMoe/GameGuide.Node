@@ -33,11 +33,26 @@ export interface IChapter extends IChapterBase {
 }
 
 export class Chapter extends Backbone.Model {
+  private _dataChanged: boolean = false;
+  private static _detectChange: string[] = 'url,name,order,remove,content'.split(',');
+
   initialize(attributes?:any, options?:any):void {
     super.initialize(attributes, options);
 
     this.on('change:content', this.updatePreview);
+    Chapter._detectChange.forEach(key => {
+      this.on(`change:${key}`, this.dataChanged);
+    });
     this.updatePreview();
+  }
+
+  dataChanged() {
+    this._dataChanged = true;
+
+    // Turn off all listeners.
+    Chapter._detectChange.forEach(key => {
+      this.off(`change:${key}`, this.dataChanged);
+    });
   }
 
   updatePreview () {
@@ -90,9 +105,18 @@ export class Chapter extends Backbone.Model {
   get is_header(): boolean { return this.get('is_header'); }
   set is_header(value: boolean) { this.set('is_header', value); }
 
-  toJSON(options?:any):IChapterHeader|IChapter {
+  toJSON(options?:any):IChapterHeader|IChapter|IChapterBase {
+    // unchanged.
+    if (!this._dataChanged) {
+      return null;
+    }
+
     if (this.remove) {
-      return { chapter_id: this.chapter_id, remove: true } as any;
+      // chapter does not even exist yet.
+      if (0 === this.chapter_id)
+        return null;
+
+      return { chapter_id: this.chapter_id, remove: true };
     }
 
     if (this.is_header) {
@@ -113,7 +137,10 @@ export class Chapter extends Backbone.Model {
 }
 
 export class Chapters extends Backbone.Collection<Chapter> {
-
+  toJSON(options?: any): any {
+    let result = super.toJSON(options);
+    return result.filter((chapter:IChapterBase) => chapter);
+  }
 }
 
 export class GuideModel extends Backbone.Model {

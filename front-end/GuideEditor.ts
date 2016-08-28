@@ -34,8 +34,7 @@ export class GuideEditorView extends GuideViewBase {
   }
 
   get maxOrder(): number {
-    let chapters: IChapter[] = this.model.chapters.toJSON();
-    return chapters.reduce((max, chapter) => Math.max(max, chapter.order), 0);
+    return this.model.chapters.reduce((max, chapter) => Math.max(max, chapter.order), 1);
   }
 
   addChapterClick(e:JQueryEventObject) {
@@ -48,7 +47,7 @@ export class GuideEditorView extends GuideViewBase {
       content: '',
       order: this.maxOrder + 1
     };
-    this.addChapter(chapter);
+    this.addChapter(chapter, true);
   }
 
   addHeaderClick(e:JQueryEventObject) {
@@ -58,11 +57,12 @@ export class GuideEditorView extends GuideViewBase {
       name: '新的标题',
       order: this.maxOrder + 1
     };
-    this.addChapter(chapter);
+    this.addChapter(chapter, true);
   }
 
-  addChapter(chapter: IChapterBase) {
+  addChapter(chapter: IChapterBase, is_new: boolean) {
     let model = new Chapter(chapter);
+    if (is_new) model.dataChanged();
     let el = $(tplEditChapter(chapter)).appendTo(this.$chapters);
     var view = new ChapterEditorView({
       model: model,
@@ -109,7 +109,7 @@ export class GuideEditorView extends GuideViewBase {
 
     let chapters: IChapter[] = this.$el.data('chapters');
     this.$el.removeAttr('data-chapters');
-    chapters.forEach(this.addChapter, this);
+    chapters.forEach(chapter => this.addChapter(chapter, false), this);
   }
 }
 

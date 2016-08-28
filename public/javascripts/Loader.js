@@ -337,10 +337,24 @@ define("GuideEditorModel", ["require", "exports", 'backbone', "FixMarkdown"], fu
     }
     exports.ChapterViewBase = ChapterViewBase;
     class Chapter extends Backbone.Model {
+        constructor(...args) {
+            super(...args);
+            this._dataChanged = false;
+        }
         initialize(attributes, options) {
             super.initialize(attributes, options);
             this.on('change:content', this.updatePreview);
+            Chapter._detectChange.forEach(key => {
+                this.on(`change:${key}`, this.dataChanged);
+            });
             this.updatePreview();
+        }
+        dataChanged() {
+            this._dataChanged = true;
+            // Turn off all listeners.
+            Chapter._detectChange.forEach(key => {
+                this.off(`change:${key}`, this.dataChanged);
+            });
         }
         updatePreview() {
             if (!this.is_header) {
@@ -381,7 +395,14 @@ define("GuideEditorModel", ["require", "exports", 'backbone', "FixMarkdown"], fu
         get is_header() { return this.get('is_header'); }
         set is_header(value) { this.set('is_header', value); }
         toJSON(options) {
+            // unchanged.
+            if (!this._dataChanged) {
+                return null;
+            }
             if (this.remove) {
+                // chapter does not even exist yet.
+                if (0 === this.chapter_id)
+                    return null;
                 return { chapter_id: this.chapter_id, remove: true };
             }
             if (this.is_header) {
@@ -399,8 +420,13 @@ define("GuideEditorModel", ["require", "exports", 'backbone', "FixMarkdown"], fu
             return result;
         }
     }
+    Chapter._detectChange = 'url,name,order,remove,content'.split(',');
     exports.Chapter = Chapter;
     class Chapters extends Backbone.Collection {
+        toJSON(options) {
+            let result = super.toJSON(options);
+            return result.filter((chapter) => chapter);
+        }
     }
     exports.Chapters = Chapters;
     class GuideModel extends Backbone.Model {
@@ -452,8 +478,7 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
             };
         }
         get maxOrder() {
-            let chapters = this.model.chapters.toJSON();
-            return chapters.reduce((max, chapter) => Math.max(max, chapter.order), 0);
+            return this.model.chapters.reduce((max, chapter) => Math.max(max, chapter.order), 1);
         }
         addChapterClick(e) {
             let chapter = {
@@ -465,7 +490,7 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
                 content: '',
                 order: this.maxOrder + 1
             };
-            this.addChapter(chapter);
+            this.addChapter(chapter, true);
         }
         addHeaderClick(e) {
             let chapter = {
@@ -474,10 +499,12 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
                 name: '新的标题',
                 order: this.maxOrder + 1
             };
-            this.addChapter(chapter);
+            this.addChapter(chapter, true);
         }
-        addChapter(chapter) {
+        addChapter(chapter, is_new) {
             let model = new GuideEditorModel_1.Chapter(chapter);
+            if (is_new)
+                model.dataChanged();
             let el = $(tplEditChapter(chapter)).appendTo(this.$chapters);
             var view = new ChapterEditorView({
                 model: model,
@@ -518,7 +545,7 @@ define("GuideEditor", ["require", "exports", "InputHelper", "App", "GuideEditorM
                 .bind('url', '#guide-url');
             let chapters = this.$el.data('chapters');
             this.$el.removeAttr('data-chapters');
-            chapters.forEach(this.addChapter, this);
+            chapters.forEach(chapter => this.addChapter(chapter, false), this);
         }
     }
     exports.GuideEditorView = GuideEditorView;
