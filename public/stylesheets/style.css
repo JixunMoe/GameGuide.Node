@@ -264,6 +264,9 @@ span.game-name {
   padding-left: 0.5em;
   font-family: monospace;
 }
+.content img {
+  max-width: 100%;
+}
 .avatar {
   float: left;
   margin-right: 2em;
