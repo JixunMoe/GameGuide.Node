@@ -8,13 +8,15 @@ if session.user
         a(href="/user") 用户首页
       li
         a(href="/user/logout") 登出系统
-  li
+  li(class=is_active(url, 'new-game'))
     a(href="/new/game") 添加游戏
   if session.user.is_admin
-    li
+    li(class=is_active(url, 'user-reg'))
       a(href="/user/register") 添加账号
 else
-  li
+  li(class=is_active(url, 'user-login'))
     a(href="/user/login") 登陆
-  li
+  li(class=is_active(url, 'user-reg'))
     a(href="/user/register") 注册
+li(class=is_active(url, 'about'))
+  a(href="/page/about") 关于

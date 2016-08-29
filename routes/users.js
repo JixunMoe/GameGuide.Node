@@ -75,13 +75,16 @@ class UserController{
     if (req.session.user) {
       res.redirect('/user');
     } else if (req.method == 'GET') {
-      res.render('login');
+      res.render('login', {url: 'user-login'});
     } else if (req.method == 'POST') {
       models.User.login(req.body.mail, req.body.passwd).then(user => {
         var data = {
           success: false,
           messages: []
         };
+        if (!req.xhr) {
+          data.url = 'user-login';
+        }
 
         if (user == null) {
           data.messages.push('用户名或密码不匹配。');
@@ -132,7 +135,7 @@ class UserController{
     if (req.session.user && !isAdmin) {
       res.redirect('/user');
     } else if (req.method == 'GET') {
-      res.render('register');
+      res.render('register', { url: 'user-reg' });
     } else if (req.method == 'POST') {
       let data = {
         success: true,
@@ -147,6 +150,7 @@ class UserController{
         if (req.xhr) {
           res.send(data);
         } else {
+          data.url = 'user-reg';
           res.render('register', data);
         }
         return ;
@@ -166,6 +170,7 @@ class UserController{
         if (req.xhr) {
           res.send(data);
         } else {
+          data.url = 'user-reg';
           res.render('register', data);
         }
       });

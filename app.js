@@ -24,6 +24,9 @@ app.locals.moment = moment;
 app.locals.marked = function (text) {
   return text ? fixMarkdown(marked(text)) : '';
 };
+app.locals.is_active = function (target, url) {
+  return target == url ? 'active' : '';
+};
 app.locals.excerpt = function (text, count) {
   if (!text || text.length == 0) return '无';
 

@@ -1,0 +1,58 @@
+extends layout
+
+block content
+  h1 梦姬攻略网
+
+  section
+    p
+      | 梦姬攻略网是一个基于
+      a(href="http://www.expressjs.com/") ExpressJs
+      | 、
+      a(href="http://sequelizejs.com/") SequelizeJs ORM
+      | 等开源模块制作的一个小型攻略网站。
+
+    p
+      | 目前依旧还在开发中，如果使用中遇到问题欢迎提交
+      a(href="https://github.com/JixunMoe/GameGuide.Node/issues", title="GitHub Issue") 报告
+      | 。
+
+    p
+      | 不管你是对该项目感兴趣，还是希望进行二次开发，都欢迎加入进来~
+
+    .alert.alert-info
+      p
+        | GitHub 项目:
+        span.separator
+        strong
+          a(
+            href="https://github.com/JixunMoe/GameGuide.Node",
+            title="GitHub Repo",
+            target="_blank"
+          ) GameGuide.Node
+      p
+        a.github-button(
+          data-style="mega"
+          href="https://github.com/JixunMoe/GameGuide.Node",
+          data-icon="octicon-star",
+          data-count-href="/JixunMoe/GameGuide.Node/stargazers",
+          data-count-api="/repos/JixunMoe/GameGuide.Node#stargazers_count"
+          data-count-aria-label="# stargazers on GitHub"
+          aria-label="Star JixunMoe/GameGuide.Node on GitHub"
+        ) 加星!
+        span.separator
+        a.github-button(
+          data-style="mega"
+          href="https://github.com/JixunMoe/GameGuide.Node/fork"
+          data-icon="octicon-repo-forked"
+          data-count-href="/JixunMoe/GameGuide.Node/network"
+          data-count-api="/repos/JixunMoe/GameGuide.Node#forks_count"
+          data-count-aria-label="# forks on GitHub"
+          aria-label="Fork JixunMoe/GameGuide.Node on GitHub"
+        ) 开坑!
+
+
+  h1 近期网站更新
+  section
+    iframe.update-frame(src="https://static.jixun.moe/github-commits.html#JixunMoe/GameGuide.Node", scrolling="no")
+
+  script(async, defer, src="https://buttons.github.io/buttons.js")

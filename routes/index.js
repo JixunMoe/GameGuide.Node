@@ -58,8 +58,8 @@ router.get('/', function(req, res, next) {
     }).catch(err => next(err));
 });
 
-router.get('/tag/:tag', function(req, res, next) {
-  res.render('index', { title: 'tag' });
+router.get('/page/about', function (req, res, next) {
+  res.render('page-about', { url: 'about' });
 });
 
 module.exports = router;

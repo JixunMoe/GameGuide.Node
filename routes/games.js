@@ -248,7 +248,8 @@ class GuideController {
         release_id: '0001',
         release_date: '2010-01-01',
         cover_url: 'https://placehold.it/200x200'
-      }
+      },
+      url: 'new-game'
     });
   }
   static AddGuide(req, res, next) {
