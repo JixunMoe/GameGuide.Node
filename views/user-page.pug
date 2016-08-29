@@ -31,10 +31,11 @@ block content
               td
                 a(href=url_guide(guide.url))
                   = guide.name
-                |  (
-                a(href=url_game(guide.Game.url))
-                  = guide.Game.name
-                | )
+                span.game-name
+                  | (
+                  a(href=url_game(guide.Game.url))
+                    = guide.Game.name
+                  | )
               td
                 if guide.Chapters.length
                   - var chap = guide.Chapters[0];

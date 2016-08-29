@@ -234,6 +234,10 @@ blackout:hover {
   user-select: none;
   cursor: default;
 }
+span.game-name {
+  padding-left: 0.5em;
+  color: #aaa;
+}
 .avatar {
   float: left;
   margin-right: 2em;

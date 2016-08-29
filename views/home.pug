@@ -20,17 +20,19 @@ block content
   h1 最近更新的攻略
   table.table.table-striped
     tr
-      th 游戏名称
-      th 攻略名称
+      th 攻略
       th 作者
       th 简介
       th 最近更新
     each guide in guides
       tr
         td
-          a(href=url_game(guide.Game.url))=guide.Game.name
-        td
           a(href=url_guide(guide.url))=guide.name
+
+          span.game-name
+            | (
+            a(href=url_game(guide.Game.url))=guide.Game.name
+            | )
         td
           a(href=url_user(guide.User.name))=guide.User.name
         td=excerpt(guide.short_desc, 20)
