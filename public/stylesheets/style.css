@@ -88,48 +88,66 @@ callout-info h4 {
   }
 }
 .guide green,
+.preview green,
 .guide red,
+.preview red,
 .guide blue,
+.preview blue,
 .guide yellow,
+.preview yellow,
 .guide danger,
+.preview danger,
 .guide info,
-.guide warn {
+.preview info,
+.guide warn,
+.preview warn {
   padding: 0 0.25em;
   margin: 0 0.25em;
   display: inline;
   border: 1px solid transparent;
 }
-.guide green {
+.guide green,
+.preview green {
   border-color: #32cd32;
 }
-.guide red {
+.guide red,
+.preview red {
   border-color: #f00;
 }
-.guide blue {
+.guide blue,
+.preview blue {
   border-color: #00f;
 }
-.guide yellow {
+.guide yellow,
+.preview yellow {
   border-color: #cc0;
 }
-.guide danger {
+.guide danger,
+.preview danger {
   background: #ffb6c1;
 }
-.guide info {
+.guide info,
+.preview info {
   background: #cff;
 }
-.guide warn {
+.guide warn,
+.preview warn {
   background: #fff080;
 }
-.guide red-text {
+.guide red-text,
+.preview red-text {
   color: #d70000;
 }
-.guide green-text {
+.guide green-text,
+.preview green-text {
   color: #008000;
 }
-.guide blue-text {
+.guide blue-text,
+.preview blue-text {
   color: #00f;
 }
-.guide yellow-text {
+.guide yellow-text,
+.preview yellow-text {
   color: #ff0;
 }
 blackout {
