@@ -30,9 +30,22 @@ define("Router", ["require", "exports", 'backbone', "App"], function (require, e
     return Router;
 });
 /**
+ * Created by Jixun on 21/08/2016.
+ */
+define("FixMarkdown", ["require", "exports", 'marked'], function (require, exports, marked) {
+    "use strict";
+    function fixMarkdown(markdown) {
+        let result = marked(markdown);
+        result = result.replace(/<table/g, '<table class="table table-hover table-inline table-bordered"');
+        result = result.replace(/<a (href="(https?|\/\/))/g, '<a rel="external nofollow noreferrer" target="_blank" $1');
+        return result;
+    }
+    return fixMarkdown;
+});
+/**
  * Created by Jixun on 17/08/2016.
  */
-define("GuideModel", ["require", "exports", 'backbone', 'marked'], function (require, exports, Backbone, marked) {
+define("GuideModel", ["require", "exports", 'backbone', "FixMarkdown"], function (require, exports, Backbone, marked) {
     "use strict";
     class Chapter extends Backbone.Model {
         get loaded() {
@@ -326,19 +339,6 @@ define("InputHelper", ["require", "exports", 'underscore', 'jquery'], function (
         }
     }
     exports.InputHelper = InputHelper;
-});
-/**
- * Created by Jixun on 21/08/2016.
- */
-define("FixMarkdown", ["require", "exports", 'marked'], function (require, exports, marked) {
-    "use strict";
-    function fixMarkdown(markdown) {
-        let result = marked(markdown);
-        result = result.replace(/<table/g, '<table class="table table-hover table-inline table-bordered"');
-        result = result.replace(/<a (href="(https?|\/\/))/g, '<a rel="external nofollow noreferrer" target="_blank" $1');
-        return result;
-    }
-    return fixMarkdown;
 });
 /**
  * Created by Jixun on 18/08/2016.

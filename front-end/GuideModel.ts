@@ -4,7 +4,7 @@
 
 import Handlebars = require('handlebars');
 import Backbone = require('backbone');
-import marked = require('marked');
+import marked = require('FixMarkdown');
 
 interface IChapterResponse {
   data: string
