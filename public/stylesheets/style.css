@@ -256,19 +256,20 @@ span.game-name {
   padding-left: 0.5em;
   color: #aaa;
 }
+.update-time {
+  color: #777;
+  text-align: center;
+}
+.update-time time {
+  padding-left: 0.5em;
+  font-family: monospace;
+}
 .avatar {
   float: left;
   margin-right: 2em;
 }
 .avatar img {
   box-shadow: 1px 1px 5px #777;
-}
-.update-time {
-  color: #777;
-}
-.update-time time {
-  padding-left: 0.5em;
-  font-family: monospace;
 }
 body {
   background: #f2f2f2;
