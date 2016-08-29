@@ -7,6 +7,22 @@ var models = require('../models');
 var _ = require("underscore");
 var forbiddenUsername = ['admin', 'login', 'register', '管理员', 'activate', 'reset'];
 
+const crypto = require('crypto');
+function md5 (text) {
+  return crypto.createHash('md5').update(text, 'utf8').digest('hex');
+}
+/**
+ * Generate gravatar url.
+ * @param {string} email
+ * @param {number} size
+ */
+function gravatar(email, size) {
+  // $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+  let hash = md5(email.trim().toLowerCase());
+  return `https://secure.gravatar.com/avatar/${ hash }?d=identicon&s=${ size }`;
+}
+
+
 class UserController{
   static home (req, res, next) {
     if (req.session.user) {
@@ -20,7 +36,35 @@ class UserController{
 
   static showUser (name, req, res, next) {
     // TODO: 获取用户信息，并展示
-    res.render('index', {title: name});
+    models.User.find({
+      where: {
+        name: name
+      },
+      attributes: ['name', 'email', 'createdAt'],
+      include: [
+        {
+          model: models.Guide,
+          attributes: ['id', 'url', 'name', 'short_desc', 'updatedAt'],
+          include: [
+            {
+              model: models.Chapter,
+              attributes: ['url', 'name', 'GuideId'],
+              limit: 1
+            }
+          ]
+        }
+      ]
+    }).then(user => {
+      if (user) {
+        user.avatar = gravatar(user.email, 80);
+        res.render('user-page', { user: user });
+      } else {
+        res.status(404).render('error-user', {
+          title: '用户不存在',
+          message: '您所寻找的用户不存在。'
+        });
+      }
+    });
   }
 
   static login (req, res, next) {
@@ -126,11 +170,11 @@ class UserController{
 
   static activate (req, res, next) {
     // TODO: 激活账户
-    res.render('index', {title: 'activate'});
+    res.status(404).render('user-error', {title: '未开放', message: '偷懒还没做呢~'});
   }
 
   static resetPassword (req, res, next) {
-    res.render('reset-password');
+    res.status(404).render('reset-password');
   }
 
   static logout (req, res, next) {

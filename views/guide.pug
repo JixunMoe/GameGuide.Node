@@ -39,6 +39,10 @@ block content
               data-url=chap.url,
               data-id=chap.id
             ) #{chap.name}
+      p.update-time
+        small
+          | 攻略最近更新于
+          time= moment(guide.updatedAt).format('YYYY-MM-DD HH:mm:ss')
 
     section#chapter.col-xs-12.col-md-9
       h2.title= chapter.name.trim()

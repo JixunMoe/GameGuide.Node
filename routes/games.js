@@ -82,7 +82,7 @@ class GuideController {
             game: game
           });
         } else {
-          res.render('error-user', {
+          res.status(404).render('error-user', {
             title: '游戏不存在',
             message: '您所查阅的游戏不存在。'
           });
@@ -118,7 +118,7 @@ class GuideController {
       ]
     }).then(guide => {
       if (!guide) {
-        res.render('error-user', {
+        res.status(404).render('error-user', {
           title: '攻略不存在',
           message: '您所查阅的攻略不存在。'
         });

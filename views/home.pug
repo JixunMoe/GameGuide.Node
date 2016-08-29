@@ -34,7 +34,7 @@ block content
         td
           a(href=url_user(guide.User.name))=guide.User.name
         td=excerpt(guide.short_desc, 20)
-        td=moment(guide.update_at).format('l')
+        td=moment(guide.updatedAt).fromNow()
 
 block title
   | 首页 - 梦姬攻略网

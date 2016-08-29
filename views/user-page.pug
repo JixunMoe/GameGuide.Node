@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1= user.name
+
+  section
+    .avatar
+      img.user-avatar(src=user.avatar)
+
+    p 于#{ moment(user.createdAt).format('ll') }加入本站。
+    p 共撰写了 #{ user.Guides.length } 篇攻略，可喜可贺~
+
+  .clearfix
+
+  h2 #{user.name} 的攻略
+  section
+    table.table.table-striped.table-hover
+      tbody
+        tr
+          th 攻略名
+          th 最新章节
+          th 更新时间
+          th 简短描述
+
+        each guide in user.Guides
+          tr
+            td
+              a(href=url_guide(guide.url))
+                = guide.name
+            td
+              if guide.Chapters.length
+                - var chap = guide.Chapters[0];
+                a(href=url_guide(guide.url, chap.url))= chap.name
+              else
+                | 还没有章节
+            td= moment(guide.updatedAt).fromNow()
+            td= excerpt(guide.short_desc)
