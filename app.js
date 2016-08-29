@@ -34,7 +34,7 @@ app.locals.excerpt = function (text, count) {
 };
 
 app.locals.url_user = function (name) {
-  return '/user/' + name;
+  return '/user/' + name.toLowerCase();
 };
 app.locals.url_guide = function (guide, chapter) {
   return '/guide/' + Array.prototype.join.call(arguments, '/');
