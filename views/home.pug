@@ -2,28 +2,30 @@ extends layout
 
 block content
   h1 最新收录的游戏
-  table.table.table-striped
-    tr
-      th 游戏名称
-      th 发售日期
-      th 游戏简介
+  table.table.table-hover
+    thead
+      tr
+        th 游戏名称
+        th 发售日期
+        th 游戏简介
     each game in games
       tr
         td
           a(href=url_game(game.url)).
             #{game.name}
-          span.guide-count(title="《" + game.name + "》现在共有 " + game.guideCount + "条攻略。").
+          span.guide-count(title="《" + game.name + "》现在共有 " + game.guideCount + " 条攻略。").
             (#{game.guideCount})
         td=moment(game.release_date).format('l')
         td=excerpt(game.description, 20)
 
   h1 最近更新的攻略
-  table.table.table-striped
-    tr
-      th 攻略
-      th 作者
-      th 简介
-      th 最近更新
+  table.table.table-hover
+    thead
+      tr
+        th 攻略
+        th 作者
+        th 简介
+        th 最近更新
     each guide in guides
       tr
         td

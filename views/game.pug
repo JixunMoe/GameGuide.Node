@@ -30,12 +30,13 @@ block content
         p
           a.btn.btn-primary(href="/new/guide/" + game.id) 撰写新攻略
     else
-      table.table.table-striped
-        tr
-          th 攻略
-          th 简介
-          th 作者
-          th 最近更新
+      table.table.table-hover
+        thead
+          tr
+            th 攻略
+            th 简介
+            th 作者
+            th 最近更新
         each guide in game.Guides
           tr
             td

@@ -27,6 +27,8 @@ app.locals.marked = function (text) {
 app.locals.excerpt = function (text, count) {
   if (!text || text.length == 0) return '无';
 
+  text = text.trim().replace(/\s+/g, ' ');
+
   if (text.length > count)
     return text.slice(0, count - 3) + '...';
 
