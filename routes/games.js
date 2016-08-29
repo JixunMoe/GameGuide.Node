@@ -66,7 +66,7 @@ class GuideController {
         include: [
           {
             model: model.Guide,
-            attributes: [ 'url', 'name', 'short_desc' ],
+            attributes: [ 'url', 'name', 'short_desc', 'updatedAt'],
             include: [
               {
                 model: model.User,

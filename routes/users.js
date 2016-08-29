@@ -50,6 +50,10 @@ class UserController{
               model: models.Chapter,
               attributes: ['url', 'name', 'GuideId'],
               limit: 1
+            },
+            {
+              model: models.Game,
+              attributes: ['url', 'name']
             }
           ]
         }

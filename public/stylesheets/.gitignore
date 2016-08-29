@@ -1,0 +1,3 @@
+# ignore all css except main one.
+*.css
+!style.css

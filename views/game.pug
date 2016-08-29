@@ -22,28 +22,33 @@ block content
       p 产品代码：#{game.release_id}
       div.clearfix
 
-    h2 攻略 (#{game.Guides.length})
+    h2 游戏攻略 (#{game.Guides.length})
 
     if game.Guides.length == 0
-      p
-        | 还没有攻略呢，
-        a(href="/new/guide/" + game.id) 添加一个
-        | ？
+      .alert.alert-info
+        p 还没有人撰写攻略呢。
+        p
+          a.btn.btn-primary(href="/new/guide/" + game.id) 撰写新攻略
     else
       table.table.table-striped
         tr
-          th 制作
-          th 攻略名称
-          th 建立日期
+          th 攻略
+          th 简介
+          th 作者
+          th 最近更新
         each guide in game.Guides
           tr
-            td= guide.User.name
             td
-              a(href='/guide/' + guide.url)
+              a(href=url_guide(guide.url))
                 = guide.name
-            td=moment(guide.create_at).format('l')
-      a.btn.btn-primary(href="/new/guide/" + game.id)
-        | 制作攻略
+            td= excerpt(guide.short_desc)
+            td
+              a(href=url_user(guide.User.name))
+                = guide.User.name
+            td=moment(guide.updatedAt).fromNow()
+      p
+        a.btn.btn-primary(href="/new/guide/" + game.id)
+          | 撰写新攻略
 
 block title
     = "游戏《" + game.name + "》"
