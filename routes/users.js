@@ -74,7 +74,7 @@ class UserController{
   static register (req, res, next) {
     let isAdmin = req.session.user && req.session.user.is_admin;
     if (!config.allow_reg && !isAdmin) {
-      res.render('error', {
+      res.render('user-error', {
         message: '已关闭注册，请联系管理员建立账号。',
         title: '已关闭注册'
       });

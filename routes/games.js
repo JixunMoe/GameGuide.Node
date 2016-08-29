@@ -77,9 +77,16 @@ class GuideController {
         ]
       })
       .then(game => {
-        res.render('game', {
-          game: game
-        })
+        if (game) {
+          res.render('game', {
+            game: game
+          });
+        } else {
+          res.render('error-user', {
+            title: '游戏不存在',
+            message: '您所查阅的游戏不存在。'
+          });
+        }
       }).catch(err => next(err));
   }
   static RenderGuide(req, res, next) {
@@ -110,6 +117,13 @@ class GuideController {
         [model.Chapter, 'id', 'ASC']
       ]
     }).then(guide => {
+      if (!guide) {
+        res.render('error-user', {
+          title: '攻略不存在',
+          message: '您所查阅的攻略不存在。'
+        });
+        return ;
+      }
       _guide = guide;
       let chapters = _chapters = guide.Chapters;
       let filtered = chapters.filter(c => !c.is_header);
