@@ -102,11 +102,11 @@ class GuideView extends Backbone.View<GuideModel> {
 
         if (this.$comment) this.$comment.remove();
         this.$comment = $('<div>')
-          .data({
-            'thread-key': chapter.id,
-            'url': location.protocol + '//' + location.host + '/c/' + chapter.id,
-            'author-key': this.$el.data('author'),
-            'title': `${chapter.title}${sep}${guide}`,
+          .attr({
+            'data-thread-key': chapter.id,
+            'data-url': location.protocol + '//' + location.host + '/c/' + chapter.id,
+            'data-author-key': this.$el.data('author'),
+            'data-title': `${chapter.title}${sep}${guide}`,
           });
         Duoshuo.EmbedThread(this.$comment);
         this.$commentContainer
