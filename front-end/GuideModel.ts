@@ -7,7 +7,9 @@ import Backbone = require('backbone');
 import marked = require('FixMarkdown');
 
 interface IChapterResponse {
-  data: string
+  success: boolean,
+  data: string,
+  updated: string,
 }
 
 export class Chapter extends Backbone.Model {
@@ -27,15 +29,27 @@ export class Chapter extends Backbone.Model {
       content: '正在加载...',
       loaded: false,
       el: null,
-      active: false
+      active: false,
+      updated: '-'
     }
   }
 
   load() {
     if (this.loaded) return ;
-    $.getJSON(`/api/chapter/${ this.get('id') }`, (data: IChapterResponse) => {
-      this.loaded = true;
-      this.content = marked(data.data);
+
+    let id = this.get('id');
+
+    $.getJSON(`/api/chapter/${ id }`, (data: IChapterResponse) => {
+      if (data.success) {
+        this.loaded = true;
+        this.content = marked(data.data);
+        this.updated = data.updated;
+      } else {
+        alert(`抓取章节数据出错
+
+ID: ${ id }
+标题: ${ this.title }`);
+      }
     });
   }
 
@@ -64,6 +78,9 @@ export class Chapter extends Backbone.Model {
   set content(value: string) {
     this.set('content', value)
   }
+
+  get updated(): string { return this.get('updated'); }
+  set updated(value: string) { this.set('updated', value); }
 }
 
 export class Chapters extends Backbone.Collection<Chapter> {

@@ -41,8 +41,8 @@ block content
             ) #{chap.name}
       p.update-time
         small
-          | 攻略更新于
-          time= moment(guide.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+          | 更新于
+          time.updated-at= updated
 
     section#chapter.col-xs-12.col-md-9
       h2.title= chapter.name.trim()

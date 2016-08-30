@@ -20,6 +20,7 @@ class GuideView extends Backbone.View<GuideModel> {
   private $title: JQuery;
   private $content: JQuery;
   private $chapters: JQuery;
+  private $updated: JQuery;
 
   private lastChapterId: number = -1;
   private $commentContainer: JQuery;
@@ -30,6 +31,8 @@ class GuideView extends Backbone.View<GuideModel> {
 
     this.$title = this.$('.title');
     this.$content = this.$('.content');
+    this.$updated = this.$('.updated-at');
+
     this.$chapters = this.$('.chapters');
     this.$commentContainer = this.$('.comments-container');
   }
@@ -72,6 +75,7 @@ class GuideView extends Backbone.View<GuideModel> {
     // Load data from page.
     chapter.loaded = true;
     chapter.content = this.$content.html();
+    chapter.updated = this.$updated.text();
 
     this.listenTo(this.model.chapters, 'change', this.render.bind(this));
     this.render();
@@ -84,6 +88,7 @@ class GuideView extends Backbone.View<GuideModel> {
     var chapter = this.model.activeChapter;
     this.$title.text(chapter.title);
     this.$content.html(chapter.content);
+    this.$updated.text(chapter.updated);
     let sep = "\x20- ";
 
     document.title = `${chapter.title}${sep}${guide}${sep}梦姬攻略网`;

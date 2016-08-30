@@ -8,18 +8,29 @@ var router = express.Router();
 var model = require('../models');
 const _ = require('underscore');
 
+function updatedAt(obj) {
+  return moment(obj.updatedAt).format('YYYY-MM-DD HH:mm:ss');
+}
+
 class GuideController {
   static GetChapterAjax(req, res, next) {
     model.Chapter.findOne({
       where: {
         id: req.params.chapter
       },
-      attributes: ['content']
+      attributes: ['content', 'updatedAt']
     }).then(chapter => {
-      res.send({ data: chapter.content });
+      res.send({
+        success: true,
+        data: chapter.content,
+        updated: updatedAt(chapter)
+      });
     }).catch(err => {
       debug('ChapterAjax: ' + err);
-      res.send({ data: `服务器发生错误，请稍后刷新重试~` })
+      res.send({
+        success: false,
+        data: `服务器发生错误，请稍后刷新重试~`
+      })
     });
   }
   static GetChaptersAjax(req, res, next) {
@@ -135,7 +146,7 @@ class GuideController {
           where: {
             id: _chapter.id
           },
-          attributes: [ 'content' ]
+          attributes: [ 'content', 'updatedAt' ]
         });
       } else {
         res.render('guide', {
@@ -153,7 +164,8 @@ class GuideController {
         res.render('guide', {
           chapter: _chapter,
           chapters: _chapters,
-          guide: _guide
+          guide: _guide,
+          updated: updatedAt(chapter)
         });
       }
     }).catch(err => next(err));
@@ -405,7 +417,6 @@ class GuideController {
       // 添加攻略
       param.UserId = req.session.user.id;
       param.GameId = req.body.gameId;
-      // TODO: 游戏 ID，简单描述
       guidePromise = model.Guide.create(param);
     } else {
       guidePromise = model.Guide.findOne({

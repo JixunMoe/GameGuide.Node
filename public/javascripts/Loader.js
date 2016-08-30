@@ -62,15 +62,26 @@ define("GuideModel", ["require", "exports", 'backbone', "FixMarkdown"], function
                 content: '正在加载...',
                 loaded: false,
                 el: null,
-                active: false
+                active: false,
+                updated: '-'
             };
         }
         load() {
             if (this.loaded)
                 return;
-            $.getJSON(`/api/chapter/${this.get('id')}`, (data) => {
-                this.loaded = true;
-                this.content = marked(data.data);
+            let id = this.get('id');
+            $.getJSON(`/api/chapter/${id}`, (data) => {
+                if (data.success) {
+                    this.loaded = true;
+                    this.content = marked(data.data);
+                    this.updated = data.updated;
+                }
+                else {
+                    alert(`抓取章节数据出错
+
+ID: ${id}
+标题: ${this.title}`);
+                }
             });
         }
         get el() {
@@ -92,6 +103,8 @@ define("GuideModel", ["require", "exports", 'backbone', "FixMarkdown"], function
         set content(value) {
             this.set('content', value);
         }
+        get updated() { return this.get('updated'); }
+        set updated(value) { this.set('updated', value); }
     }
     exports.Chapter = Chapter;
     class Chapters extends Backbone.Collection {
@@ -164,6 +177,7 @@ define("Guide", ["require", "exports", 'backbone', "App", "GuideModel", "duoshuo
             super.initialize(options);
             this.$title = this.$('.title');
             this.$content = this.$('.content');
+            this.$updated = this.$('.updated-at');
             this.$chapters = this.$('.chapters');
             this.$commentContainer = this.$('.comments-container');
         }
@@ -200,6 +214,7 @@ define("Guide", ["require", "exports", 'backbone', "App", "GuideModel", "duoshuo
             // Load data from page.
             chapter.loaded = true;
             chapter.content = this.$content.html();
+            chapter.updated = this.$updated.text();
             this.listenTo(this.model.chapters, 'change', this.render.bind(this));
             this.render();
             console.info('Guide: Initial data populated.');
@@ -209,6 +224,7 @@ define("Guide", ["require", "exports", 'backbone', "App", "GuideModel", "duoshuo
             var chapter = this.model.activeChapter;
             this.$title.text(chapter.title);
             this.$content.html(chapter.content);
+            this.$updated.text(chapter.updated);
             let sep = "\x20- ";
             document.title = `${chapter.title}${sep}${guide}${sep}梦姬攻略网`;
             if (!Duoshuo.dummy) {
