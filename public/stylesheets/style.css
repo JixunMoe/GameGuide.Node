@@ -18,40 +18,40 @@ callout code {
 callout+callout {
   margin-top: -5px;
 }
-callout-default {
+callout[default] {
   border-left-color: #777;
 }
-callout-default h4 {
+callout[default] h4 {
   color: #777;
 }
-callout-primary {
+callout[primary] {
   border-left-color: #428bca;
 }
-callout-primary h4 {
+callout[primary] h4 {
   color: #428bca;
 }
-callout-success {
+callout[success] {
   border-left-color: #5cb85c;
 }
-callout-success h4 {
+callout[success] h4 {
   color: #5cb85c;
 }
-callout-danger {
+callout[danger] {
   border-left-color: #d9534f;
 }
-callout-danger h4 {
+callout[danger] h4 {
   color: #d9534f;
 }
-callout-warning {
+callout[warning] {
   border-left-color: #f0ad4e;
 }
-callout-warning h4 {
+callout[warning] h4 {
   color: #f0ad4e;
 }
-callout-info {
+callout[info] {
   border-left-color: #5bc0de;
 }
-callout-info h4 {
+callout[info] h4 {
   color: #5bc0de;
 }
 .game .cover {
