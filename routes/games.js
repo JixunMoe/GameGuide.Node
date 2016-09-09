@@ -178,8 +178,10 @@ class GuideController {
     }
 
     model.Game.findOne({
-      id: req.params.game,
-      UserId: req.session.user.id
+      where: {
+        id: req.params.game,
+        UserId: req.session.user.id
+      }
     }).then(game => {
       if (!game) {
         next(new Error('游戏不存在或没有编辑权限。'));
@@ -327,7 +329,7 @@ class GuideController {
     } else {
       // 修改游戏数据
       wait = model.Game
-        .findOne({ id: req.body.id })
+        .findOne({ where: {id: req.body.id} })
         .then(game => {
           if (game.UserId != req.session.user.id)
             throw new Error('您没有修改该游戏数据的权限。');
