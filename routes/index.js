@@ -1,26 +1,22 @@
 var express = require('express');
 var router = express.Router();
-var GameModel = require('../models/game');
 var model = require('../models');
-const _ = require('underscore');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  let gameParam = {
-    order: [
-      ['id', 'desc']
-    ],
-    include: [
-      {
-        model: model.Guide,
-        attributes: [
-          [model.sequelize.fn('COUNT', 'Guide.id'), 'Count']
-        ]
-      }
-    ],
-    limit: 5
-  };
+/* I can't get correct query from Sequelize, so I made this up. */
+const queryLatestGames = `SELECT
+	\`Game\`.*,
+	count(Guides.id) \`Count\`
+FROM
+	\`Games\` AS \`Game\`
+LEFT JOIN Guides ON Guides.GameId = Game.Id
+GROUP BY
+	Game.Id
+ORDER BY
+	\`Game\`.\`id\` DESC
+LIMIT 5`.replace(/\s+/g, ' ');
 
+router.get('/', function(req, res, next) {
   let guideParam = {
     order: [
       ['id', 'desc']
@@ -39,17 +35,12 @@ router.get('/', function(req, res, next) {
   };
 
   Promise
-    .all([model.Game.findAll(gameParam), model.Guide.findAll(guideParam)])
+    .all([
+      model.sequelize.query(queryLatestGames, {type: model.sequelize.QueryTypes.SELECT}),
+      model.Guide.findAll(guideParam)
+    ])
     .then(values => {
       let [games, guides] = values;
-
-      games = games
-        .filter(game => game.id)
-        .map(g => {
-          return _.extend({
-            guideCount: g.Guides.length > 0 ? g.Guides[0].dataValues.Count : 0
-          }, g.dataValues);
-        });
 
       res.render('home', {
         games: games,
