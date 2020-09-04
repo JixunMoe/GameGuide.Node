@@ -21,7 +21,7 @@
     "mysql": "^2.11.1",
     "mysql2": "^1.0.0-rc.10",
     "pug": "^2.0.0-beta5",
-    "sequelize": "^3.24.1",
+    "sequelize": "^6.3.5",
     "serve-favicon": "~2.3.0",
     "stylus": "0.54.5",
     "underscore": "^1.8.3"
